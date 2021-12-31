@@ -1,0 +1,118 @@
+@charset "UTF-8";
+/* 嵌套 */
+.one {
+  color: red;
+}
+
+.one .two {
+  color: green;
+}
+
+/* 父选择器的标识符 */
+body:hover .one {
+  color: green;
+}
+
+/* 悬浮 */
+.three {
+  color: blue;
+}
+
+.three:hover {
+  color: red;
+}
+
+/* 群组选择器的嵌套 */
+.one h1,
+.one h2,
+.one h3 {
+  color: #000;
+}
+
+.one h1,
+.two h1 {
+  color: #000;
+}
+
+/* 子组合选择器和同层组合选择器：>、+和~ */
+.one ~ a {
+  color: #000;
+}
+
+.one > span {
+  background: #000;
+}
+
+.one p > a {
+  color: #000;
+}
+
+.one p > span {
+  color: #000;
+}
+
+nav + .one {
+  color: #000;
+}
+
+/* 嵌套属性1 */
+nav {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ccc;
+}
+
+nav:hover {
+  border-color: #000;
+}
+
+/* 嵌套属性2 */
+nav {
+  border: 1px solid #ccc;
+  border-left: 5px;
+  border-right: 5px;
+}
+
+/* 导入的文件(只能导入scss) */
+/* 局部导入scss文件 */
+.one {
+  color: red;
+}
+
+.one .two {
+  color: green;
+}
+
+.one .two a {
+  color: white;
+}
+
+/* 注释 */
+.one {
+  /* 我会出现在css中 */
+  color: #000;
+}
+
+/* 当多个选择器里需要相同的多个变量，可以将几个属性整合在一个里面 */
+.one {
+  color: #ccc;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #fff;
+}
+
+/* 可以不需要按照顺序传参 */
+.two {
+  color: #ccc;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #fff;
+}
+
+/* 设置默认值 */
+.three {
+  border-width: 10px;
+  border-style: solid;
+  border-color: #000;
+}
+/*# sourceMappingURL=入门.css.map */

@@ -1,0 +1,126 @@
+$one: red;
+$two: green;
+$three: blue;
+
+/* 嵌套 */
+.one {
+  color: $one;
+  .two {
+    color: $two;
+  }
+}
+
+/* 父选择器的标识符 */
+.one {
+  body:hover & {
+    color: green;
+  }
+}
+
+/* 悬浮 */
+.three {
+  color: $three;
+  &:hover {
+    color: $one;
+  }
+}
+
+/* 群组选择器的嵌套 */
+.one {
+  h1,
+  h2,
+  h3 {
+    color: #000;
+  }
+}
+
+.one,
+.two {
+  h1 {
+    color: #000;
+  }
+}
+
+/* 子组合选择器和同层组合选择器：>、+和~ */
+.one {
+  ~ a {
+    color: #000;
+  }
+  > span {
+    background: #000;
+  }
+  p > {
+    a {
+      color: #000;
+    }
+    span {
+      color: #000;
+    }
+  }
+  nav + & {
+    color: #000;
+  }
+}
+
+/* 嵌套属性1 */
+nav {
+  border: {
+    style: solid;
+    width: 1px;
+    color: #ccc;
+  }
+  &:hover {
+    border: {
+      color: #000;
+    }
+  }
+}
+/* 嵌套属性2 */
+nav {
+  border: 1px solid #ccc {
+    left: 5px;
+    right: 5px;
+  }
+}
+/* 导入的文件(只能导入scss) */
+@import './index1.scss';
+
+/* 注释 */
+.one {
+  //我不会出现在css中
+  /* 我会出现在css中 */
+  color:/* 我不会出现在css中 */ #000;
+}
+
+/* 当多个选择器里需要相同的多个变量，可以将几个属性整合在一个里面 */
+@mixin lyb($a, $b, $c) {
+  border: {
+    width: $a;
+    style: $b;
+    color: $c;
+  }
+}
+
+.one {
+  color: #ccc;
+  @include lyb(5px, solid, #fff);
+}
+
+/* 可以不需要按照顺序传参 */
+.two {
+  color: #ccc;
+  @include lyb($b: solid, $c: #fff, $a: 5px);
+}
+
+/* 设置默认值 */
+@mixin lyb($a: 1px, $b: solid, $c: #000) {
+  border: {
+    width: $a;
+    style: $b;
+    color: $c;
+  }
+}
+
+.three {
+  @include lyb($a: 10px);
+}

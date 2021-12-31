@@ -1,0 +1,12 @@
+$one: red;
+$two: green;
+$three: blue;
+
+/* 局部导入scss文件 */
+.one {
+  color: $one;
+  .two {
+    color: $two;
+    @import './index2.scss';
+  }
+}

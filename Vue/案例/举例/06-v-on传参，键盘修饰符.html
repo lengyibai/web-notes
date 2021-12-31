@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>冷弋白的网页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-flow: column wrap;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <button @click="doIt(666)">点击</button>
+        <input type="text" @keyup.13='say'>
+    </div>
+
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        let app = new Vue({
+            el: '.app',
+            data: {},
+            methods: {
+                doIt(a) {
+                    console.log(a);
+                },
+                say() {
+                    console.log('冷弋白');
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

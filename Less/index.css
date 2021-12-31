@@ -1,0 +1,75 @@
+.lyb {
+  width: 10px;
+  height: 20px;
+}
+/* 混入 */
+.mixins {
+  color: #000;
+  font-size: 20px;
+  -webkit-filter: blur(10);
+  filter: blur(10);
+}
+.lyb {
+  width: 100px;
+  color: #000;
+  font-size: 20px;
+  -webkit-filter: blur(10);
+  filter: blur(10);
+}
+/* 嵌套 */
+.one {
+  color: #000;
+}
+.one .two {
+  color: #111;
+}
+/* 父选择器的标识符 */
+.lyb {
+  color: #fff;
+}
+.lyb:hover .one {
+  color: #000;
+}
+.two:hover .lyb {
+  color: #111;
+}
+/* 群组选择器的嵌套 */
+.one h1,
+.one h2,
+.one h3 {
+  color: #000;
+}
+.one h1,
+.two h1 {
+  color: #fff;
+}
+/* 子组合选择器和同层组合选择器：>和~ */
+.one ~ a {
+  color: #000;
+}
+.one > span {
+  color: #000;
+}
+.one p a {
+  color: #000;
+}
+.one p span {
+  color: #000;
+}
+/* 媒体查询嵌套 */
+.lyb {
+  width: 300px;
+}
+@media screen and (max-width: 1280px) {
+  .lyb {
+    width: 600px;
+  }
+}
+@media screen and (max-width: 720px) {
+  .lyb {
+    width: 300px;
+  }
+}
+/* 数组 */
+/* 注释 */
+/* 导入(导入的变量会提升到顶部) */

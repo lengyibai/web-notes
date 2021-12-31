@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+        />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>冷弋白的网页</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+                flex-flow: column wrap;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="app">
+            <button @click="num > 0 ? num--:''">－</button>
+            <p>{{num}}</p>
+            <button @click="num <=9? num++:''">＋</button>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script>
+            let app = new Vue({
+                el: '.app',
+                data: {
+                    num: 0,
+                },
+            });
+        </script>
+    </body>
+</html>

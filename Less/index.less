@@ -1,0 +1,108 @@
+@width: 10px;
+@height: 20px;
+.lyb {
+  width: @width;
+  height: @height;
+}
+
+/* 混入 */
+.mixins {
+  color: #000;
+  font-size: 20px;
+  -webkit-filter: blur(10);
+  filter: blur(10);
+}
+
+.lyb {
+  width: 100px;
+  .mixins();
+}
+
+/* 嵌套 */
+.one {
+  color: #000;
+  .two {
+    color: #111;
+  }
+}
+
+/* 父选择器的标识符 */
+.lyb {
+  color: #fff;
+  &:hover .one {
+    color: #000;
+  }
+  .two:hover & {
+    color: #111;
+  }
+}
+
+/* 群组选择器的嵌套 */
+.one {
+  h1,
+  h2,
+  h3 {
+    color: #000;
+  }
+}
+
+.one,
+.two {
+  h1 {
+    color: #fff;
+  }
+}
+
+/* 子组合选择器和同层组合选择器：>和~ */
+.one {
+  ~ a {
+    color: #000;
+  }
+  > span {
+    color: #000;
+  }
+  p > {
+    a {
+      color: #000;
+    }
+    span {
+      color: #000;
+    }
+  }
+}
+
+/* 媒体查询嵌套 */
+.lyb {
+  width: 300px;
+  @media screen and (max-width: 1280px) {
+    width: 600px;
+  }
+  @media screen and (max-width: 720px) {
+    width: 300px;
+  }
+}
+
+/* 数组 */
+// #color() {
+//   color1: #ff4d47;
+// }
+// .lyb {
+//   color: #color[color1];
+// }
+
+/* 注释 */
+// .one {
+//   //我不会出现在css中
+//   /* 我会出现在css中 */
+//   color:/* 我不会出现在css中 */ #000;
+// }
+
+/* 导入(导入的变量会提升到顶部) */
+// @import './lib/lyb';
+// .lyb {
+//   color: @lyb;
+// }
+
+//下面这行会直接出现在css文件的第一行
+//而不是像导入less文件会生成相应代码
+// @import './lib/body.css';

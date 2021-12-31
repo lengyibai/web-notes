@@ -1,0 +1,27 @@
+{
+  "name": "ohe",
+  "version": "1.0.0",
+  "description": "ohe",
+  "main": "main.js",
+  "author": "lengyibai",
+  "license": "hlm",
+  "scripts": {
+    "start": "electron-forge start",
+    "build": "electron-builder --win"
+  },
+  "build": {
+    "productName": "喔呵",
+    "appId": "com.haolinmeng.oh",
+    "copyright": "好邻盟",
+    "directories": {
+      "output": "build"
+    },
+    "win": {
+      "icon": "./logo.png"
+    }
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.61",
+    "electron": "^16.0.1"
+  }
+}
