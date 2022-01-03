@@ -2069,28 +2069,28 @@ document.addEventListener('selectstart', function (e) {
 
 ### client 系列
 
-| 用法                                                         | 说明                                                         |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| e.clientX                                                    | 获取鼠标在浏览器可视窗口的 X 坐标，会忽略滚动条              |
-| e.clientY                                                    | 获取鼠标在浏览器可视窗口的 X 坐标，会忽略滚动条              |
-| e.pageX                                                      | 获取鼠标在文档页面的 X 坐标，不会忽略滚动条                  |
-| e.pageY                                                      | 获取鼠标在文档页面的 Y 坐标，不会忽略滚动条                  |
-| e.screenX                                                    | 获取鼠标相对电脑屏幕的 X 坐标                                |
-| e.screenY                                                    | 获取鼠标相对电脑屏幕的 Y 坐标                                |
-| document.documentElement.clientHeight \|\| document.body.clientHeight | 浏览器可视区高度，一般采用这个浏览器可视区高度，一般采用这个 |
-| el.getBoundingClientRect()                                   | 获取元素坐标对象，通过`document.documentElement.clientHeight - el.getBoundingClientRect().top`可获取元素到可视区的距离 |
+| 用法                       | 说明                                                         |
+| -------------------------- | ------------------------------------------------------------ |
+| e.clientX                  | 获取鼠标在浏览器可视窗口的 X 坐标，会忽略滚动条              |
+| e.clientY                  | 获取鼠标在浏览器可视窗口的 X 坐标，会忽略滚动条              |
+| e.pageX                    | 获取鼠标在文档页面的 X 坐标，不会忽略滚动条                  |
+| e.pageY                    | 获取鼠标在文档页面的 Y 坐标，不会忽略滚动条                  |
+| e.screenX                  | 获取鼠标相对电脑屏幕的 X 坐标                                |
+| e.screenY                  | 获取鼠标相对电脑屏幕的 Y 坐标                                |
+| el.clientHeight            | 获取元素自身不包括 padding、margin、边框，返回数值不带单位<br />`document.documentElement.clientHeight`浏览器可视区高度， |
+| el.getBoundingClientRect() | 获取元素坐标对象，通过`document.documentElement.clientHeight - el.getBoundingClientRect().top`可获取元素到可视区的距离 |
 
 ### offset 系列
 
 > 可以获取任意样式表中的样式值，获取数值没有单位，包含`padding`，`border`的值，只能获取，不能赋值
 
-| 用法                 | 说明                                                                                     |
-| -------------------- | ---------------------------------------------------------------------------------------- |
-| element.offsetParent | 返回带有定位的父亲，没有定位则返回 body                                                  |
+| 用法                 | 说明                                                         |
+| -------------------- | ------------------------------------------------------------ |
+| element.offsetParent | 返回带有定位的父亲，没有定位则返回 body                      |
 | element.offsetTop    | 返回元素相对有定位的父元素上方的偏移，若父元素没有定位，则以 body 为准，返回数值不带单位 |
 | element.offsetLeft   | 返回元素相对有定位的父元素左边的偏移，若父元素没有定位，则以 body 为准，返回数值不带单位 |
-| element.offsetWidth  | 返回自身包括 padding、边框、内容区的宽度，返回数值不带单位                               |
-| element.offsetHeight | 返回自身包括 padding、边框、内容区的高度，返回数值不带单位                               |
+| element.offsetWidth  | 返回自身包括 padding、边框、内容区的宽度，返回数值不带单位   |
+| element.offsetHeight | 返回自身包括 padding、边框、内容区的高度，返回数值不带单位   |
 
 ```js
 //获取鼠标在盒子内的坐标
