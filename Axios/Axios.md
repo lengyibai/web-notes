@@ -98,6 +98,7 @@
 ```js
 axios({
   url: 'http://localhost:3000/countries',
+  method: 'GET',
   params: {
     name: '文明',
   },
@@ -113,7 +114,7 @@ axios
   .get('http://localhost:3000/countries', {
     params: {
       name: '富强',
-    }
+    },
   })
   .then(res => {
     console.log(res.data[0].text);
@@ -134,16 +135,16 @@ axios
 
 ```js
 /**
-	* 建议将发送的请求数据保存为一个变量进行发送
-	* 如果是固定格式，可以采用函数传值的方法发送
-	* 尤其是在更新数据的时候
-	*/
+ * 建议将发送的请求数据保存为一个变量进行发送
+ * 如果是固定格式，可以采用函数传值的方法发送
+ * 尤其是在更新数据的时候
+ */
 btn.onclick = function (data) {
   axios
     .post(
       'http://localhost:3000/lyb',
       //设置添加的数据
-      data: {
+      {
         name: '冷弋白',
         age: '20',
       },
@@ -194,16 +195,14 @@ btn.onclick = function (data) {
 
 ```js
 btn.onclick = function () {
-  axios
-    .put('http://localhost:3000/lyb/1', {name: '冷弋白',age: '20'})
-    .then(
-      res => {
-        console.log('更新成功');
-      },
-      err => {
-        console.log('更新失败');
-      }
-    );
+  axios.put('http://localhost:3000/lyb/1', { name: '冷弋白', age: '20' }).then(
+    res => {
+      console.log('更新成功');
+    },
+    err => {
+      console.log('更新失败');
+    },
+  );
 };
 ```
 
@@ -271,14 +270,14 @@ btn.onclick = function () {
   axios({
     method: 'DELETE', //直接删除id为3的数据
     url: 'http://localhost:3000/lyb/1',
-    data: {}  // 请求参数放在请求体
+    data: {}, // 请求参数放在请求体
   }).then(
     res => {
       console.log('删除成功');
     },
     err => {
       console.log('删除失败');
-    }
+    },
   );
 };
 ```
@@ -318,14 +317,16 @@ axios.all([fn1(), fn2()]).then(
 ```js
 const lyb = axios.create({
   //默认配置
-  baseURL: "http://localhost:3000",
+  baseURL: 'http://localhost:3000',
   timeout: 5000,
 });
-lyb.get("/social", {
-    name: "自由",
-  }).then(res => {
-  console.log(res.data[0].text);
-});
+lyb
+  .get('/social', {
+    name: '自由',
+  })
+  .then(res => {
+    console.log(res.data[0].text);
+  });
 ```
 
 ### 请求封装
@@ -341,9 +342,9 @@ lyb.get("/social", {
 ```js
 import axios from 'axios';
 export const instance = axios.create({
-    baseURL: 'http://localhost:3000',
-    time: 5000,
-  });
+  baseURL: 'http://localhost:3000',
+  time: 5000,
+});
 //绑定请求拦截器
 instance.interceptors.request.use(config => {
   return config;
@@ -434,14 +435,14 @@ created() {
 ```js
 const social = axios.create({
   //默认配置
-  baseURL: "http://wthrcdn.etouch.cn",
+  baseURL: 'http://wthrcdn.etouch.cn',
   timeout: 5000,
 });
 social({
   method: 'GET',
   url: '/weather_mini',
   params: {
-    city: '自贡'
+    city: '自贡',
   },
 }).then(res => {
   console.log(res);
