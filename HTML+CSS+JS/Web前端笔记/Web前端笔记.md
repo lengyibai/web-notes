@@ -954,26 +954,6 @@ console.log(lyb);
 'ABC'.toLowerCase(); //abc
 ```
 
-## 判断是否为小数
-
-**Number.isInteger()**
-
-```js
-console.log(Number.isInteger(5)); //整数为true
-console.log(Number.isInteger(2.1)); //浮点数为false
-```
-
-## 保留 n 位小数
-
-**toFixed(n)**
-
-> 会四舍五入
-
-```js
-let a = 0.111111;
-console.log(a.toFixed(2)); //'0.11'
-```
-
 ## JSON
 
 > `json`转字符串：`JSON.stringify(obj)`
@@ -1024,7 +1004,8 @@ alert('a');
 | Math.round(1.5)              | 四舍五入                                                     |
 | Math.pow(2,10)               | `2`的`10`次方，但被 ES7 的 `2 ** 10 `替代                    |
 | Math.trunc(3.5)              | 抹去小数部分`3`，正数与 floor 一样，负数则有区别             |
-| Math.sgin()                  | 判断是正数还是负数还是` 0`，正数返回 `1`，负数返回`-1`，`0` 返回 `0` |
+| Math.sign()                  | 判断是正数还是负数还是` 0`，正数返回 `1`，负数返回`-1`，`0` 返回 `0` |
+| Number.isInteger(n)          | 判断是否为小数，整数为`true`                                 |
 | num.toFixed(n)               | 保留`n`位小数，会四舍五入，返回的是字符串                    |
 | parseInt(num)                | 去掉小数点，不会四舍五入，建议只用于`16px`会被转成`16`       |
 | Number(num)                  | 保留小数，性能优于上一个                                     |
@@ -1862,14 +1843,34 @@ observer.observe(item);
 
 ## requestAnimationFrame
 
+> 例如返回顶部
+
 ```js
-const lyb = document.querySelector('.lyb')
-let x = 0
-function fn() {
-  lyb.style.transform = `rotate(${ x += 1 }deg)`
-  requestAnimationFrame(fn)
-}
-fn()
+const scrollBox = this.$parent.$refs.scroll;
+scrollBox.scrollTop = 250;
+(function fn() {
+  if (scrollBox.scrollTop <= 0) return;
+  scrollBox.scrollTop -= scrollBox.scrollTop / 10;
+  requestAnimationFrame(fn);
+})()
+```
+
+## 监听Dom元素resize
+
+> MutationObserver
+
+```js
+let MutationObserver =
+  window.MutationObserver ||
+  window.WebKitMutationObserver ||
+  window.MozMutationObserver;
+let el = document.querySelector('.SingleMultiple');
+let observer = new MutationObserver(() => {
+  console.log('触发')
+});
+observer.observe(el, {
+  attributeFilter: ['style'],
+});
 ```
 
 
