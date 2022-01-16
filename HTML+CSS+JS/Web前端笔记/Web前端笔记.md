@@ -3449,27 +3449,65 @@ this.value = this.value.replace(/[^\d]/g,'')
 
 ```html
 <script src="a.js" type="module"></script>
-<script src="b.js" type="module"></script>
 ```
 
 `a.js`
 
 ```js
-//导出方式1（无法解构，只能导出对象）
-export default { a: 1, b: 2, c: 3 };
+/* 自定义名称default导入 */
+import file from './b.js';
+console.log(`直接导入：${file.name}`); //冷弋白
 
-//导出方式2（常用）
-export let a = '冷弋白';
-export let b = '冷弋白';
+/* 按需导入 */
+import { a } from './b.js';
+console.log(`按需导入：${a}`); //1
+
+/* 全部导入为一个对象 */
+import * as lyb from './b.js';
+//或者按需导入
+// import lyb, { a } from './b.js';
+console.log(`全部导入：${lyb.default.name}`); //冷弋白
+console.log(`全部导入：${lyb.a}`); //1
+
+/* 别名导入 */
+import lengyibai, { a as A, default as LYB } from './b.js';
+console.log(`别名导入：${LYB.name}`); //冷弋白
+console.log(`别名导入：${A}`); //1
+console.log(`共同导入：${lengyibai.name}`); //冷弋白
+
+/* 获取通过导入再别名导出后按需导入 */
+import { C } from './c.js';
+console.log(`接收别名导出：${C.name}`); //冷弋白
 ```
 
 `b.js`
 
 ```js
-//导入方式1（只能导入为对象）
-import obj from './a.js';
+/* 按需导出 */
+export const a = 1;
 
-//按需导入(常用)
-import { a, b } from './a.js';
+/* 可被自定义名称直接导入(一个文件里面只能存在一个默认导出，且不能使用 var、let、const ) */
+export default {
+  name: '冷弋白',
+};
+```
+
+`c.js`
+
+> 所有公共组件在此处导入，再起别名导出后，可按需导入
+>
+> 优点1：当更改一个组件的路径，普通引入方式需要更改所有的引入该组件的路径，而通过当前方式引入导出，只会修改一次。
+>
+> 优点2：在多个组件内引入这个组件，需要频繁写`import`和`from`，而使用了这个方法，只需要引入这个文件，即可按需引入。
+>
+> 但公共组件可以通过循环注册全局使用
+
+```js
+export { default as C } from './b.js';
+
+//以下为例子
+export { default as Navbar } from './Navbar'
+export { default as Sidebar } from './Sidebar'
+export { default as AppMain } from './AppMain'
 ```
 
