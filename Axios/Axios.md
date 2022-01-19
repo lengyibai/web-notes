@@ -302,7 +302,7 @@ function fn2() {
   });
 }
 axios.all([fn1(), fn2()]).then(
-  //axios.spread((fn1, fn2) => { //原始写法
+  //数组解构
     ([res1, res2]) => {
     console.log(fn1.data[0].text);
     console.log(fn2.data[0].text);
