@@ -9,10 +9,11 @@
 ## 视口标签
 
 ```html
-<meta
-  name="viewport"
-  content="width=device-width, user-scalable=yes, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-/>
+<meta charset="utf-8">
+<title>菜鸟教程(runoob.com)</title>
+<meta name="description" content="免费在线教程">
+<meta name="keywords" content="HTML,CSS,XML,JavaScript">
+<meta name="author" content="runoob">
 ```
 
 | 属性          | 描述                                                              |
