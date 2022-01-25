@@ -9,13 +9,8 @@
 ## 起步
 
 > 安装：`npm install less less-loader@5 --save`
-
-<!--main.js引入-->
-
-```js
-import less from "less;
-Vue.use(less);
-```
+>
+> 无需引入
 
 ## 配置全局less样式
 
