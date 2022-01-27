@@ -1862,11 +1862,13 @@ observer.observe(item);
 ```js
 const scrollBox = this.$parent.$refs.scroll;
 scrollBox.scrollTop = 250;
+let a = null;
 (function fn() {
   if (scrollBox.scrollTop <= 0) return;
   scrollBox.scrollTop -= scrollBox.scrollTop / 10;
-  requestAnimationFrame(fn);
+  a = requestAnimationFrame(fn);
 })();
+cancelAnimationFrame(a)
 ```
 
 ## 监听 Dom 元素 resize
