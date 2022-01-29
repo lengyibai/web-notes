@@ -77,19 +77,21 @@
 
 ## 生命周期函数
 
-> `beforeCreated(){}`：在实例初始化之后调用，数据观测 `data observer`和 `event/watcher` 事件配置之前被调用
+> `beforeCreated(){}`：在实例化了`Vue`调用，但还没进行数据的初始化与响应式处理
 >
-> `created(){}`：在实例创建完成后被立即调用，但挂载阶段还没开始，`$el`属性目前不可见。
+> `created(){}`：数据已被初始化和响应式处理，在这里可以访问到数据，但还没挂载`Dom`
 >
-> `beforeMount(){}`：在挂载开始之前被调用：相关的`render`函数首次被调用。该钩子在服务器端渲染期间不被调用
+> `beforeMount(){}`：`main.js`内的`render`函数在这调用，以及生成虚拟`Dom`
 >
-> `mounted(){}`：模板上的东西被挂载到`dom`上面后就会回调此函数
+> `mounted(){}`：真实`Dom`挂载完毕
 >
-> `beforeUpdate(){}`：`data`数据发生改变时调用
+> `beforeUpdate(){}`：`Dom`上的数据发生改变时调用
 >
-> `updated(){}`：`Dom`发生改变时调用
+> `updated(){}`：`Dom`数据改变后重新挂载后调用
 >
-> 以下两个函数必须将`router-view`标签使用`keep-alive`标签包裹起来才会生效
+> 
+>
+> 以下两个钩子依赖`keep-alive`
 >
 > 详情：[keep-alive](#keep-alive)
 >
@@ -97,15 +99,35 @@
 >
 > `deactivated(){}`：从当前页面跳转到其他页面时调用
 >
-> `beforeDestroy(){}`：实例销毁之前调用，在这一步实例仍然完全可用。未使用`keep-alive`进行缓存就会被销毁
+> 以下两个钩子不能使用`keep-alive`
+>
+> `beforeDestroy(){}`：实例销毁之前调用，此时还能访问数据
 >
 > `destroyed(){}`：实例销毁后调用
+>
+> 父beforeCreate -> 父created -> 父beforeMount -> 子beforeCreate -> 子created -> 子beforeMount -> 子mounted -> 父mounted
+
+## 优化
+
+> 不需要响应式处理的死数据定义在`data`外
+
+```js
+// 方法一：将数据定义在data之外
+data () {
+    this.list1 = { xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx }
+    this.list2 = { xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx }
+    this.list3 = { xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx }
+    this.list4 = { xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx }
+    this.list5 = { xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx }
+    return {}
+ }
+```
 
 ## Vue 函数
 
 ### nextTick
 
-> 当在函数内添加一个 Dom 元素，此时元素还未渲染，如果紧接着又要对这个 Dom 元素进行操作，需要把操作的代码写进`this.$nextTick(()=>{})`内，因为渲染 Dom 是异步操作，相当于进行了同步处理
+> 当在函数内添加一个`Dom`元素，此时元素还未渲染，如果紧接着又要对这个`Dom`元素进行操作，需要把操作的代码写进`this.$nextTick(()=>{})`内，因为渲染`Dom`是异步操作，`$nextTick`相当于进行了同步处理
 
 ### Vue.set()更新视图
 
@@ -187,12 +209,20 @@ fn(state) {
           console.log('已触发');
           console.log(newVal); //冷弋彩
       }
+    
+    //深度监听
     obj: {
-      deep:true, //深度监听设置为 true
-        name() {
-          console.log('已触发');
-      }
-    }
+      deep: true,
+      handler(newV) {
+        console.log(newV);
+      },
+    },
+    'obj.age': {
+      deep: true,
+      handler(newV, oldV) {
+        console.log(newV, oldV);
+      },
+    },
   }
 </script>
 ```
@@ -319,7 +349,7 @@ filters: {
 >
 > 注：不要使用对象或数组之类的非基本类型值作为 `v-for` 的 `key`。请用字符串或数值类型的值。
 >
-> PS：推荐采用解构`item`进行赋值
+> PS：推荐采用解构`item`进行赋值，不推荐`index`作为`key`改变数组会导致`index`一同改变，损耗性能
 
 > 循环对象
 
@@ -501,14 +531,14 @@ filters: {
 
 #### 事件
 
-| 事件    | 使用                                  | 描述                                                      |
+|         |                                       |                                                           |
 | ------- | ------------------------------------- | --------------------------------------------------------- |
-| $event  | @click="fn($event)"，fn(e) {}         | 在事件函数的小括号内加入 `$event`，可传递事件对象         |
 | @input  | @input='fn'                           | 在输入框输入时触发                                        |
 | @keyup. | @keyup.enter='fn' \|\| @keyup.13='fn' | 后面接键盘的 ASCLL 码值                                   |
 | @play   | @play='fn'                            | 只能写在 audio 标签内，监听音乐是否播放                   |
 | @pause  | @pause='fn'                           | 只能写在 audio 标签内，监听音乐是否暂停                   |
 | @load   | @load='fn'                            | 写在某个带有`src`属性的标签里，等资源加载完后触发，如图片 |
+| @scroll | @scroll.passive='fn'                  | `passive`提升移动端滚动性能                               |
 
 #### 事件修饰符
 
@@ -1431,15 +1461,15 @@ const router = new VueRouter({
 import store from "./store";
 ```
 
-> [state](#state)：存放变量
+> [state](#state)：存放数据
 >
 > [getters](#getters)： 处理数据，同计算属性
 >
 > [mutations](#mutations)：修改数据
 >
-> [actions](#actions)：接收异步数据及逻辑运算
+> [actions](#actions)：接收异步数据及提交`mutation`
 >
-> [module](#modules)：创建多个`Vuex`
+> [module](#modules)：允许创建多个`store`且同时保存在单一的状态树中
 >
 > 目前只有`state`和`getters`在`App.js`或组件内使用`$store.state.变量名`和`$store.getters.方法名`获取
 
