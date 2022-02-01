@@ -883,37 +883,30 @@ Vue.prototype.$bus = new Vue(); // event Bus 用于无关系组件间的通信�
 
 > 向`$bus`发送一个事件
 
-```html
-<script>
-  import { eventBus } from "@/main.js";
-  export default {
-    fn() {
-      this.$bus.$emit("change", "lengyibai");
-    },
-  };
-</script>
+```js
+export default {
+  fn() {
+    this.$bus.$emit("change", "lengyibai");
+  },
+};
 ```
 
 `子组件2`
 
 > 接收发送的事件参数
 
-```html
-<script>
-  import { eventBus } from '@/main.js';
-  export default {
-    data() {
-      return {
-        lyb: '冷弋白',
-      };
-    },
-    created() {
-      this..$on('change', value => {
-        this.lyb = value;
-      });
-    },
-  };
-</script>
+```js
+export default {
+  created() {
+    this.$bus.$on('change', value => {
+      console.log(value)
+    });
+  },
+  beforeDestroy() {
+  	//组件一销毁就需要关闭监听，防止重复监听
+    this.$bus.$off('change');
+  },
+};
 ```
 
 ## Vue API
@@ -940,17 +933,17 @@ Vue.prototype.$bus = new Vue(); // event Bus 用于无关系组件间的通信�
 
 /* 进入动画属性 */
 .fade-enter-active {
-  transition: all 0.25s;
+  transition: all 1s;
 }
 
 /* 离开动画属性 */
 .fade-leave-active {
-  transition: all 0.5s;
+  transition: all 1s;
 }
 
 /* 改变定位时使用 */
 .fade-move {
-  transition: all 0.5s;
+  transition: all 1s;
 }
 
 .fade-leave-active {
