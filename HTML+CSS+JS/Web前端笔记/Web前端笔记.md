@@ -1911,24 +1911,23 @@ observer.observe(el, {
 
 ### 事件
 
-| 事件                             | 说明                                                                                                                                          |
-| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| change                           | 内容发生改变触发，用于事件绑定，`onchange`用于`<select>`下拉菜单                                                                              |
-| mousewheel                       | 滚轮事件                                                                                                                                      |
-| input                            | 输入时触发                                                                                                                                    |
-| transitionend                    | 监听过渡动画是否结束的事件                                                                                                                    |
-| reset                            | 当重置表单触发                                                                                                                                |
-| submit                           | 当提交表单触发                                                                                                                                |
-| select()                         | 输入框文字选中状态                                                                                                                            |
-| keyup                            | 某个键盘按键松开时触发，不区分大小写                                                                                                          |
-| keydown                          | 某个键盘按键按下时持续触发，不区分大小写                                                                                                      |
-| keypress                         | 和`onkeydown`一样，但不识别功能键，Ctrl，shift，方向键，但会区分大小写，并能返回不同的 ASCLL 码值                                             |
-| keyCode                          | 返回当前按下键的 ASCLL 码值，只有`onkeypress`能够使用                                                                                         |
-| load(window 专用)                | 等 DOM 加载完毕触发(包含图片、CSS 等)就可以执行                                                                                               |
-| DomContentLoaded(window 专用)    | 等 DOM 加载完毕触发(不包含图片、CSS 等)                                                                                                       |
+| 事件                             | 说明                                                         |
+| -------------------------------- | ------------------------------------------------------------ |
+| change                           | 内容发生改变触发，用于事件绑定，`onchange`用于`<select>`下拉菜单 |
+| mousewheel                       | 滚轮事件                                                     |
+| input                            | 输入时触发                                                   |
+| transitionend                    | 监听过渡动画是否结束的事件                                   |
+| reset                            | 当重置表单触发                                               |
+| submit                           | 当提交表单触发                                               |
+| select()                         | 输入框文字选中状态                                           |
+| keyup                            | 某个键盘按键松开时触发，不区分大小写                         |
+| keydown                          | 某个键盘按键按下时持续触发，不区分大小写                     |
+| keypress                         | 和`onkeydown`一样，但不识别功能键，Ctrl，shift，方向键，但会区分大小写，并能返回不同的 ASCLL 码值 |
+| keyCode                          | 返回当前按下键的 ASCLL 码值，只有`onkeypress`能够使用        |
+| load(window 专用)                | 等 DOM 加载完毕触发(包含图片、CSS 等)就可以执行              |
+| DomContentLoaded(window 专用)    | 等 DOM 加载完毕触发(不包含图片、CSS 等)                      |
 | resize(window 专用)              | 只要浏览器窗口尺寸发生变化，它就会触发，用于响应式布局，`window.innerWidth`获取浏览器宽度，`window.innerHeight`获取浏览器高度，配合此事件使用 |
-| window.requestAnimationFrame(fn) | `fn(){window.requestAnimationFrame(fn)}`可实现无限调用`fn`                                                                                    |
-| drop/dragover                    | 文件拖进并松指定范围会触发/文件拖进指定范围会触发，传递事件对象`e`，`e.dataTransfer.files`即文件信息数组                                      |
+| window.requestAnimationFrame(fn) | `fn(){window.requestAnimationFrame(fn)}`可实现无限调用`fn`   |
 
 ### 属性值操作
 
@@ -2047,6 +2046,22 @@ document.addEventListener('selectstart', function (e) {
   e.preventDefault();
 });
 ```
+
+### 元素拖拽事件
+
+> 放置被拖拽元素的盒子事件，需要给被拖拽元素加上`draggable="true"`
+
+| 事件名    | 描述                                                         |
+| --------- | ------------------------------------------------------------ |
+| dragstart | 开始拖拽                                                     |
+| drag      | 拖拽中（持续触发，不管是否移动）                             |
+| dragend   | 拖拽结束                                                     |
+| dragover  | 被拖拽元素在盒子内拖拽（持续触发，不管是否移动），必须加上`e.preventDefault()` |
+| drop      | 被拖拽元素在盒子内拖拽结束                                   |
+| dragenter | 被拖拽元素进入盒子                                           |
+| dragleave | 被拖拽元素离开盒子                                           |
+
+
 
 ## BOM
 
