@@ -328,7 +328,6 @@ export function savePoint() {
   </div>
 </template>
 <script>
-import { onMounted } from 'vue';
 import { savePoint } from '@/hooks/usePoint.js';
 export default {
   name: 'index',
