@@ -3,6 +3,11 @@
 <p style="font-size:50px;font-weight:bold;width:100%;text-align:center;color:#fff;text-shadow:0 0 15px">冷弋白</p>
 <p style="text-align:center;color:#aaa;position: relative;top:-10px;text-shadow:0 0 10px"><a href='https://wpa.qq.com/msgrd?v=3&uin=1329670984&site=qq&menu=yes' style='text-decoration: none;
 '>点击此处联系我</a></p>
+# Vite
+
+> npm init vite-app 文件名
+>
+> 
 
 # Vue3
 
@@ -333,6 +338,36 @@ export default {
   name: 'index',
   setup() {
     let point = savePoint();
+  },
+};
+</script>
+```
+
+### toRef & toRefs
+
+> 创建一个`ref`对象，其`value`值指向另一个对象中的某个属性
+>
+> 用于`template`模板，省去对象前缀
+
+```vue
+<template>
+  <div class="index">{{ lyb }}：{{ age }}</div>
+</template>
+<script>
+import { reactive, toRef, toRefs } from 'vue';
+export default {
+  name: 'index',
+  setup() {
+    let user = reactive({
+      lyb: '冷弋白',
+      info: {
+        age: 21,
+      },
+    });
+    return {
+      ...toRefs(user), //类似将对象里的所有属性解构
+      age: toRef(user.info, 'age'), //类似将对象内的指定属性解构
+    };
   },
 };
 </script>
