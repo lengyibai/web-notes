@@ -1,11 +1,14 @@
 <template>
-  <index />
+  <div class="App"></div>
 </template>
 <script>
-import index from '@/views/index.vue';
+import {} from 'vue';
 export default {
   name: 'App',
-  components: { index },
+  components: {},
+  setup() {
+    return {};
+  },
 };
 </script>
 <style scoped lang="less">
