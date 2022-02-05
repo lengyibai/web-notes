@@ -147,7 +147,7 @@ export default {
 >
 > context
 >
-> `attrs`: 值为对象，从父组件传递过来但没有在`props`配置中声明的属性, 相当于 `this.$attrs`
+> `attrs`: 值为对象，从父组件传递过来但没有在`props`配置中声明的属性, 相当于 `this.$attrs`，不同于`this.$attrs`，它支持`class`和`style`
 >
 > `slots`: 收到的插槽内容, 相当于 `this.$slots`
 >
@@ -342,6 +342,9 @@ export default {
   name: 'index',
   setup() {
     let point = savePoint();
+    return {
+      point
+    }
   },
 };
 </script>
@@ -521,4 +524,138 @@ export default {
   },
 };
 ```
+
+### 数据判断
+
+> `isRef`：检查一个值是否为一个`ref`对象
+>
+> `isReactive`：检查一个对象是否是由 `reactive` 创建的响应式代理
+>
+> `isReadonly`：检查一个对象是否是由 `readonly` 创建的只读代理
+>
+> `isProxy`：检查一个对象是否是由 `reactive` 或者 `readonly` 方法创建的代理
+
+## 页面相关
+
+### Teleport
+
+> 能够将被此标签包住的组件从一个盒子内移动到其他任何一个带有类名、id名、或标签元素内，比如`body`
+
+```html
+<!-- to可填写为类名、标签名、id名 -->
+<teleport to="body">
+  <div>我会被移动到body标签内</div>
+</teleport>
+```
+
+### 异步加载组件
+
+> 实验性
+>
+> `defineAsyncComponent`：异步引入组件，一般父组件要等待子组件渲染完成后才会展示，使用异步引入子组件则父组件不再等待
+>
+> `suspense`：使异步引入加载的组件未渲染完成前，使用此标签可自定义填补空缺，可用于提示加载中或展示骨架屏，组件加载完成后即刻消失
+>
+> PS：当使用了异步加载组件后，`setup`支持`async`
+>
+> 注：切勿在路由组件中使用异步引入
+
+<!--父组件-->
+
+```html
+<template>
+  <div class="App">
+    <suspense>
+      <template #default>
+        <index />
+      </template>
+      <!-- 当组件还未加载完成，将会使用下面插槽内的样式 -->
+      <template #fallback>
+        <h1>加载中...</h1>
+      </template>
+    </suspense>
+  </div>
+</template>
+<script>
+import { defineAsyncComponent } from 'vue';
+const index = defineAsyncComponent(() => import('@/views/index.vue'));
+export default {
+  name: 'App',
+  components: { index },
+  setup() {
+    return {};
+  },
+};
+</script>
+```
+
+<!--子组件-->
+
+```js
+async setup() {
+  let lyb = ref('冷弋白');
+  let a = await new Promise(resolve => {
+    setTimeout(() => {
+      resolve({ lyb });
+    }, 1000);
+  });
+  return a;
+},
+```
+
+## 全局API的转移
+
+<!--app即-->
+
+```js
+import { createApp } from 'vue';
+import App from './App.vue';
+const app = createApp(App);
+```
+
+| 2.x 全局 API（```Vue```） | 3.x 实例 API (`app`)        |
+| ------------------------- | --------------------------- |
+| Vue.config.xxxx           | app.config.xxxx             |
+| Vue.component             | app.component               |
+| Vue.directive             | app.directive               |
+| Vue.mixin                 | app.mixin                   |
+| Vue.use                   | app.use                     |
+| Vue.prototype             | app.config.globalProperties |
+
+### 定义全局
+
+<!--main.js-->
+
+```js
+import { createApp } from 'vue';
+import App from './App.vue';
+const app = createApp(App);
+app.config.globalProperties.$lyb = '冷弋白';
+app.mount('#app'); //一定要放在最后
+```
+
+<!--组件内-->
+
+```vue
+<template>
+  <!--可直接使用-->
+  <div class="index">{{ $lyb }}</div>
+</template>
+<script>
+import { getCurrentInstance } from 'vue';
+export default {
+  setup() {
+    //proxy 相当于 this
+    const { proxy } = getCurrentInstance();
+    console.log(proxy.$lyb);
+  },
+};
+</script>
+```
+
+## 其他改变
+
+#### 过渡动画类名更改
+
+> `v-enter`改为`v-enter-from`
 

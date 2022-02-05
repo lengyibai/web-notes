@@ -1,11 +1,13 @@
 <template>
-  <div class="App"></div>
+  <div class="App">
+    <index />
+  </div>
 </template>
 <script>
-import {} from 'vue';
+import index from '@/views/index.vue';
 export default {
   name: 'App',
-  components: {},
+  components: { index },
   setup() {
     return {};
   },
@@ -14,6 +16,5 @@ export default {
 <style scoped lang="less">
 .App {
   width: 100vw;
-  height: 100vh;
 }
 </style>
