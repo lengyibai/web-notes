@@ -11,5 +11,8 @@
   "parserOptions": {
     "parser": "babel-eslint"
   },
-  "rules": {}
+  "rules": {
+    "vue/no-multiple-template-root": "off",
+    "no-unused-vars": "warn"
+  }
 }
