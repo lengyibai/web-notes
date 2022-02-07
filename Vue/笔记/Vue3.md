@@ -29,6 +29,25 @@ let p = new Proxy(person, {
 });
 ```
 
+## 使用插件
+
+> 通过`app.use()`
+
+```js
+import { createApp } from 'vue';
+import App from './App.vue';
+
+import router from './router';
+import store from './store';
+
+const app = createApp(App);
+app.use(router);
+app.use(store);
+app.mount('#app');
+```
+
+
+
 ## setup
 
 > 比`beforeCreate`先执行，`this`是`undefined`
@@ -658,4 +677,48 @@ export default {
 #### 过渡动画类名更改
 
 > `v-enter`改为`v-enter-from`
+
+# Vuex
+
+## 创建
+
+> 基础模板
+
+<!--store.js-->
+
+```js
+import { createStore } from 'vuex'
+export default createStore({
+  modules: { 
+    storage: storage
+  }
+})
+```
+
+> 访问数据
+
+```js
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+
+export default {
+  setup () {
+    const store = useStore()
+    
+    return {
+      // 在 computed 函数中访问 state
+      count: computed(() => store.state.count),
+
+      // 在 computed 函数中访问 getter
+      double: computed(() => store.getters.double),
+      
+      // 使用 mutation
+      increment: () => store.commit('increment'),
+
+      // 使用 action
+      asyncIncrement: () => store.dispatch('asyncIncrement')
+    }
+  }
+}
+```
 

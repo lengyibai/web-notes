@@ -16,8 +16,7 @@
 
 ## 安装
 
-> npm i -S better-scroll
->
+> `npm i -S better-scroll`
 
 ## 引入
 
@@ -25,7 +24,7 @@
 
 ```js
 mounted() {
-  this.scroll = new BScroll('.wrapper', {
+  this.scroll = new BScroll('.wrapper', { 
     pullUpLoad: true, //上拉加载
     pullDownRefresh: true, //下拉刷新
     probeType: 3, //开启侦测滚动坐标
@@ -47,114 +46,118 @@ mounted() {
 
 ## 安装
 
-> npm install -g babel-cli
+> `npm install -g babel-cli`
 >
-> npm install babel-preset-es2015 --save
+> `npm install babel-preset-es2015 --save`
 
 ## 转换
 
-> babel es6.js --out-file es5.js --presets es2015 -w
+> `babel es6.js --out-file es5.js --presets es2015 -w`
 
 # 提交规范
 
-> npm i @commitlint/cli @commitlint/config-conventional commitizen cz-conventional-changelog-zh husky -D
+> 提交自动格式化
+>
+> 只能通过`npx cz`提交
 
-<!--配置-->
+<!--安装-->
+
+```shell
+npx husky-init
+npm i
+npm i @commitlint/cli @commitlint/config-conventional commitizen cz-conventional-changelog-zh -D
+npm i @commitlint/config-conventional @commitlint/cli -D
+npx husky add .husky/commit-msg "npx --no-install commitlint --edit $1"
+
+```
+
+<!--package.json-->
 
 ```json
 {
   "scripts": {
-    "commit": "git-cz"
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
+  "commit": "cz"
   },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog-zh",
       "defaultType": "[Feat]",
       "types": {
-        "[Feat]": {
+        "[Feat] ": {
           "description": "新功能",
           "title": "Features"
         },
-        "[Bug]": {
+        "[Bug] ": {
           "description": "修复bug",
           "title": "Bug Fixes"
         },
-        "[Docs]": {
+        "[Docs] ": {
           "description": "文档增删改",
           "title": "Documentation"
         },
-        "[Style]": {
+        "[Style] ": {
           "description": "样式修改",
           "title": "Styles"
         },
-        "[Refactoring]": {
+        "[Refactoring] ": {
           "description": "重构代码",
           "title": "Code Refactoring"
         },
-        "[Pref]": {
+        "[Pref] ": {
           "description": "性能优化",
           "title": "Performance Improvements"
         },
-        "[Test]": {
+        "[Test] ": {
           "description": "增加测试",
           "title": "Tests"
         },
-        "[Build]": {
+        "[Build] ": {
           "description": "构建系统外部修改",
           "title": "Builds"
         },
-        "[CI]": {
+        "[CI] ": {
           "description": "对CI配置文件和脚本的更改",
           "title": "Continuous Integrations"
         },
-        "[Chore]": {
+        "[Chore] ": {
           "description": "除src目录或测试文件以外的修改",
           "title": "Chores"
         },
-        "[Revert]": {
+        "[Revert] ": {
           "description": "回退历史版本",
           "title": "Reverts"
         },
-        "[Conflict]": {
+        "[Conflict] ": {
           "description": "修改冲突",
           "title": "Conflict"
         },
-        "[Font]": {
+        "[Font] ": {
           "description": "字体文件更新",
           "title": "Fonts"
         },
-        "[Delete]": {
+        "[Delete] ": {
           "description": "删除文件",
           "title": "Delete Files"
         },
-        "[Stash]": {
+        "[Stash] ": {
           "description": "暂存文件",
           "title": "Stash Files"
         }
       }
     }
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^16.1.0",
-    "@commitlint/config-conventional": "^16.0.0",
-    "commitizen": "^4.2.4",
-    "cz-conventional-changelog": "^3.3.0",
-    "cz-conventional-changelog-zh": "^0.0.2",
-    "husky": "^7.0.4"
   }
 }
 ```
 
-<!--.commitlintrc.js-->
+> 将 `.husky > pre-commit`文件内的`npm`指令改为`npm run lint`
+>
+> 创建`commitlint.config.js`
+
+<!--commitlint.config.js-->
 
 ```js
 module.exports = {
-  extends: ["@commitlint/config-conventional"],
-};
+  extends: ['@commitlint/config-conventional']
+}
 ```
 

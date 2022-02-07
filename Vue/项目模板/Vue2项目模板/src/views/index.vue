@@ -1,21 +1,20 @@
 <template>
   <div class="index">
-    <h1>Hello Vue3</h1>
+    <h1>Hello Vue2</h1>
   </div>
 </template>
 <script>
-import {} from "vue";
 export default {
   name: "index",
-  components: {},
-  setup() {
+  props: {},
+  data() {
     return {};
   },
+  components: {},
+  methods: {},
 };
 </script>
 <style scoped lang="less">
 .index {
-  width: 100%;
-  height: 100%;
 }
 </style>

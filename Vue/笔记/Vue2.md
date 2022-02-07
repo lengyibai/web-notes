@@ -14,7 +14,7 @@
 | npm i xxx -S                                                 | 安装生产环境依赖                     |
 | npm i xxx -D                                                 | 安装开发环境依赖                     |
 | npm i xxx@版本号                                             | 安装指定版本                         |
-| npm i xxx@latest                                             | 安装最新版本                         |
+| npm i xxx@next                                               | 安装最新版本                         |
 | npm un -S xxx                                                | 删除 xxx 模块                        |
 | npm un -S -g xxx                                             | 删除 xxx 全局模块                    |
 | npm install -g cnpm --registry=https://registry.npm.taobao.org | 安装淘宝镜像                         |
@@ -932,25 +932,23 @@ export default {
 .fade-enter,
 .fade-leave-active {
   opacity: 0;
+  transform: translateY(100%)
 }
 
-/* 进入动画属性 */
+/* 进入和离开动画属性 */
+.fade-leave-active,
 .fade-enter-active {
   transition: all 1s;
 }
 
-/* 离开动画属性 */
-.fade-leave-active {
-  transition: all 1s;
-}
-
-/* 改变定位时使用 */
+/* 解决添加元素占位时无动画，替代 width: 0 与 overflow: hidden */
 .fade-move {
   transition: all 1s;
 }
 
+/* 解决删除元素时，其他元素补位无动画 */
 .fade-leave-active {
-  position: absolute;
+  position: absolute; /* 必须为绝对定位 */
 }
 ```
 
