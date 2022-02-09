@@ -8,9 +8,9 @@
 
 ## 起步
 
-> 安装：`npm install less less-loader@5 --save`
->
-> 无需引入
+```shell
+npm install less@3.0.4 less-loader@5 --save
+```
 
 ## 配置全局less样式
 

@@ -222,6 +222,7 @@ fn(state) {
     },
     'obj.age': {
       deep: true,
+      immediate: true, //立即调用
       handler(newV, oldV) {
         console.log(newV, oldV);
       },
