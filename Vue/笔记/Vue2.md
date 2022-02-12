@@ -595,17 +595,21 @@ filters: {
 | .right  | @click.right  | 鼠标右键 |
 | .middle | @click.middle | 鼠标中键 |
 
-### v-show
-
-> `v-show='true'`
->
-> true:显示，false:隐藏，
-
 ### v-text
 
 > `v-text='你好世界'`
 >
 > 相当于 innerText，但不同的是可以进行+字符串拼接，{{变量名}}与这个的效果是一样的
+
+### is
+
+> 将一个普通的`html`标签变成一个组件
+
+```vue
+<div is="transition-group" style="display: grid; width: 100%; height: 100%; grid-gap: 5px"></div>
+<!-- 等价于 -->
+<transition-group style="display: grid; width: 100%; height: 100%; grid-gap: 5px"></transition-group>
+```
 
 ## 组件化
 
