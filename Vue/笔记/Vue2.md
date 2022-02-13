@@ -611,6 +611,36 @@ filters: {
 <transition-group style="display: grid; width: 100%; height: 100%; grid-gap: 5px"></transition-group>
 ```
 
+### 自定义指令
+
+> 通过 `v-指令名`调用
+
+```js
+// 注册一个全局自定义指令
+Vue.directive('focus', {
+  // 当被绑定的元素插入到 DOM 中时……
+  inserted: function (el) {
+    // 聚焦元素
+    el.focus()
+  }
+})
+
+//注册一个组件内自定义指令
+export default {
+  directives: {
+    focus: {
+      inserted: function (el) {
+        el.style.transform = 'translateX(100%)';
+        el.style.transition = 'all 1s';
+        setTimeout(() => {
+          el.style.transform = 'translateX(0%)';
+        });
+      }
+    }
+  },
+}
+```
+
 ## 组件化
 
 > 问：为什么组件内只能使用 data 函数来返回对象
@@ -655,7 +685,7 @@ props:{
 }
 ```
 
-### 子传父$emit
+### 子传父 $emit
 
 > 子组件通过`this.$emit('item-click', item)`发射事件及参数，父组件直接`@item-click="自定义参数名"`接收
 >
@@ -728,6 +758,44 @@ props:{
         console.log(this.$children[0].index);
         //通过$refs获取子组件变量
         console.log(this.$refs.lyb.index);
+      },
+    },
+  };
+</script>
+```
+
+### 父传孙 $attrs
+
+> 注：`$attrs`只接收子组件未在`props`声明的值
+
+<!--父-->
+
+```vue
+<template>
+  <son lyb="冷弋白" />
+</template>
+```
+
+<!--子-->
+
+```vue
+<template>
+  <grandson v-bind="$attrs" />
+</template>
+```
+
+<!--孙-->
+
+```vue
+<template>
+  {{ lyb }}
+</template>
+ <script>
+  export default {
+    props: {
+      lyb: {
+        type: String,
+        default: '',
       },
     },
   };

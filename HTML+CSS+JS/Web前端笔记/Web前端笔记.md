@@ -2370,86 +2370,56 @@ target; // {a:1, b:2, c:3}
 
 ## 原型对象
 
-> `Object.prototype`截止
-
-```js
-var a = [1, 2, 3];
-console.log(a.__proto__); //存在各种数组的API，如遍历
-console.log(Array.prototype); //同上
-//结论：a.__proto__ === Array.prototype
-
-Array.prototype.lyb = '冷弋白';
-console.log(a.lyb); //冷弋白
-//结论：给Array.prototype设置自定义属性，则所有数组都能使用
-
-console.log(Array.prototype.__proto__);
-console.log(Object.prototype);
-//输出：以上两行输出相同
-//结论：Array.prototype.__proto__ == Object.prototype
-
-Object.prototype.lyb = '冷弋白';
-console.log(Array.prototype.__proto__.lyb); //冷弋白
-console.log(Array.prototype.lyb); //冷弋白
-console.log(Array.lyb); //冷弋白
-
-var a = [1, 2, 3];
-console.log(a.__proto__.lyb); //冷弋白
-console.log(a.lyb); //冷弋白
-//结论：如果在当前位置找不到，会向上查找，直到Object.prototype没有，再返回undefined
-```
-
-### 自定义库
-
-```js
-Object.prototype.lyb = function () {
-  return this.sort(function (a, b) {
-    return a - b;
-  });
-};
-let arr = [5, 7, 7, 9, 2];
-console.log(arr.lyb()); //[ 2, 5, 7, 7, 9 ]
-```
-
-## 修改对象
-
-> `Object.defineProperty(对象名, '属性名', {` > `value:`修改属性值，没有则新增
-> `writable:`是否可以修改，默认为 false 不允许，独一无二，但只有对象名。属性不能修改，使用 Object.defineProperty 依旧可以修改
-> `enumerable:`是否被枚举，也就是这个无法被遍历出来，但却能被调用，默认为 false，所以新增一个属性需要改为 true 才能遍历
-> `configurable:`是否可以被删除或者修改特性，也就是修改 writable、enumerable、configurable，但 value 依旧可以修改，默认为 false
+> `__proto__`和`constructor`属性是对象所独有的
 >
-> `})`
+> `prototype`属性是函数所独有的
+>
+> 函数也是一种对象，所以函数也拥有`__proto__`和`constructor`属性
+
+| 属性          | 描述                          |
+| ------------- | ----------------------------- |
+| `constructor` | 存在于`prototype`，指向函数   |
+| `prototype`   | 存在于`函数`                  |
+| `__proto__`   | 存在于`函数`，指向`prototype` |
+
+<!--原型链-->
+
+<img src="img/原型链.png" style="zoom:50%;" />
+
+<!--代码示例-->
 
 ```js
-let obj = {
-  id: 1,
-  uname: 'lyb',
-};
-/* Object.defineProperty(对象名, '属性名', {
-    value:修改属性值，没有则新增
-    writable:是否可以修改，默认为false不允许，独一无二，但只有对象名。属性不能修改，使用Object.defineProperty依旧可以修改
-    enumerable:是否被枚举，也就是这个无法被遍历出来，但却能被调用，默认为false，所以新增一个属性需要改为true才能遍历
-    configurable:是否可以被删除或者修改特性，也就是修改writable、enumerable、configurable，但value依旧可以修改，默认为false
-}) */
-Object.defineProperty(obj, 'id', {
-  writable: false,
-});
-Object.defineProperty(obj, 'uname', {
-  configurable: false,
-});
-obj.id = 2; //此时无法修改
-delete obj.uname; //此时无法被删除
-console.log(obj);
+  function Foo() {}
+  let foo = new Foo();
 
-Object.defineProperty(obj, 'uname', {
-  //enumerable: false //无法修改，将报错
-});
-Object.defineProperty(obj, 'age', {
-  //如果是以这种方式新增属性，想要让它能够修改这三个特性且具备普通属性拥有的特性，则需要全部改成true
-  value: 20,
-  enumerable: true,
-  writable: true,
-  configurable: true,
-});
+  /* 两次直达 null */
+  //从 foo 直达 null
+  console.log(foo.__proto__ === Foo.prototype);
+  console.log(Foo.prototype.__proto__ === Object.prototype);
+  console.log(Object.prototype.__proto__ === null);
+
+  //从 Foo.prototype 分支，直达 null
+  console.log(Foo.prototype.constructor === Foo);
+  console.log(Foo.__proto__ == Function.prototype);
+  console.log(Function.prototype.__proto__ === Object.prototype);
+  console.log(Object.prototype.__proto__ === null);
+
+  /* 三次循环 */
+  //从 Foo.prototype 分支，产生 Foo.prototype & Foo 的循环
+  console.log(Foo.prototype.constructor === Foo);
+  console.log(Foo.prototype === Foo.prototype);
+  console.log(Foo.prototype.constructor === Foo);
+
+  //从 Foo 到达 Function.prototype，产生 Function.prototype & Function 的循环
+  console.log(Foo.__proto__ === Function.prototype);
+  console.log(Function.prototype.constructor === Function);
+  console.log(Function.__proto__ === Function.prototype);
+
+  //从 Function.prototype 分支，产生 Function.prototype & Object & Function Object 的循环
+  console.log(Function.prototype.__proto__ === Object.prototype);
+  console.log(Object.prototype.constructor === Object);
+  console.log(Object.__proto__ === Function.prototype);
+  console.log(Function.prototype.__proto__ === Object.prototype);
 ```
 
 # ES6 及以上
