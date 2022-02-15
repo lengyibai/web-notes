@@ -1363,6 +1363,8 @@ arr.slice(-n);
 ### splice 删除/添加范围元素
 
 > 返回被删除的数组元素（数组形式），原数组会被修改
+>
+> `-n`可倒着删除
 
 ```js
 //删除
@@ -1372,9 +1374,9 @@ console.log(arr1); //[1,2,6]
 console.log(arr1.splice(2)); //[2,3,4,5] 删除下标2后面的元素
 console.log(arr1); //[1,2]
 //添加
-var arr2 = ['a', 'b', 'c', 'd'];
-arr2.splice(2, 0, 'e', 'f'); //添加到下标2，删除1个
-console.log(arr2); //[ 'a', 'b', 'e', 'f', 'c', 'd' ]
+var arr2 = ["a", "b", "c"];
+arr2.splice(2, 0, 1, 2); //添加到下标2，删除0个
+console.log(arr2); //[ 'a', 'b', 1, 2, 'c' ]
 ```
 
 ### reverse 数组翻转

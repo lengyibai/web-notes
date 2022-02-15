@@ -1,13 +1,7 @@
 <template>
   <div class="index">
     <transition-group class="hero-list" name="fade" appear>
-      <card
-        v-for="item in heroList"
-        :data="item"
-        :key="item.name"
-        v-show="item.isShow"
-      >
-      </card
+      <card v-for="item in heroList" :data="item" :key="item.name"> </card
     ></transition-group>
     <div class="req">
       <div class="bg" :style="{ backgroundImage: 'url(' + imgUrl + ')' }"></div>
@@ -43,6 +37,8 @@ import {
   editUser,
   updateUser,
   delUser,
+  getBackupUserList,
+  getBackupUserInfo,
 } from "@/api/test.js";
 export default {
   name: "index",
@@ -67,6 +63,10 @@ export default {
     this.getAll();
 
     /* getUserInfo(1).then((res) => {
+      console.log(res);
+    }); */
+
+    /* getBackupUserInfo(1).then((res) => {
       console.log(res);
     }); */
 
@@ -126,26 +126,35 @@ export default {
         });
       });
     },
-    async addAll() {
-      for (let item of this.heroList) {
-        await this.all(item, true);
-        let timer;
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-          this.toBottom();
-        }, 300);
+    addAll() {
+      let that = this;
+      function fn(item, index) {
+        return new Promise((resolve) => {
+          that.heroList.splice(index, 0, item);
+          setTimeout(() => {
+            resolve();
+            if (index % 7 == 0) {
+              that.toBottom();
+            }
+          }, 50);
+        });
       }
+      getBackupUserList().then(async (res) => {
+        for (let i = 0; i < res.data.length; i++) {
+          await fn(res.data[i], i);
+        }
+      });
     },
     async delAll() {
-      for (let item of this.heroList) {
-        await this.all(item, false);
+      window.scrollTo(0, 0);
+      while (this.heroList.length != 0) {
+        this.heroList.splice(0, 1);
       }
     },
     toBottom() {
       let b =
         document.documentElement.scrollHeight -
         document.documentElement.clientHeight;
-      console.log(b);
       window.scrollTo({
         top: b,
         behavior: "smooth",
@@ -155,18 +164,18 @@ export default {
 };
 </script>
 <style scoped lang="less">
-/* 进入前状态 */
-.fade-enter,
-.fade-leave-active {
-  opacity: 0;
-}
-
-/* 进入和离开动画属性 */
-.fade-leave-active,
-.fade-enter-active {
+* {
   transition: all 0.5s;
 }
-
+/* 进入前状态 */
+.fade-enter {
+  transform: translateX(-100%) scale(0.1);
+  opacity: 0;
+}
+.fade-leave-active {
+  transform: scale(0.1);
+  opacity: 0;
+}
 .index {
   width: 100vw;
   display: flex;

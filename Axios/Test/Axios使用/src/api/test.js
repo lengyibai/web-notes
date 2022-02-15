@@ -16,6 +16,15 @@ export const getUserList = () => {
 export const getUserInfo = (id) => {
   return getReq("/heroList", { id });
 };
+//####········获取备份用户列表········####//
+export const getBackupUserList = () => {
+  return getReq("/heroList_backup");
+};
+
+//####········获取指定备份用户信息········####//
+export const getBackupUserInfo = (id) => {
+  return getReq("/heroList_backup", { id });
+};
 
 //#####··········POST请求··········#####//
 //####········添加用户········####//
