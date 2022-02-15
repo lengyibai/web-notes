@@ -39,6 +39,14 @@ export default {
   flex-direction: column;
   padding: 10px;
   margin-bottom: 10px;
+  @media screen and (max-width: 860px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  @media screen and (max-width: 600px) {
+    flex-direction: column;
+  }
   .bg {
     position: absolute;
     inset: 0;
@@ -49,11 +57,15 @@ export default {
     filter: blur(25px) contrast(125%) brightness(75%);
   }
   img {
-    width: 150px;
+    width: 75%;
+    max-width: 150px;
     border-radius: 50%;
     margin-bottom: 25px;
     z-index: 1;
     box-shadow: 0px -5px 15px 0px #000;
+    @media screen and (max-width: 600px) {
+      width: 90%;
+    }
   }
   .name {
     font-size: 50px;
@@ -61,9 +73,21 @@ export default {
     font-weight: bold;
     -webkit-box-reflect: below 5px
       linear-gradient(transparent, transparent 25%, rgba(0, 0, 0, 0.25));
-    margin-bottom: 25px;
     z-index: 1;
     text-shadow: 1px 1px 15px, 1px 1px 60px;
+    @media screen and (max-width: 1111px) {
+      font-size: 40px;
+    }
+    @media screen and (max-width: 860px) {
+      font-size: 75px;
+    }
+    @media screen and (max-width: 600px) {
+      font-size: 60px;
+      writing-mode: vertical-lr;
+      letter-spacing: 10px;
+      -webkit-box-reflect: below 5px
+        linear-gradient(transparent, transparent 25%, rgba(0, 0, 0, 0));
+    }
   }
 }
 </style>

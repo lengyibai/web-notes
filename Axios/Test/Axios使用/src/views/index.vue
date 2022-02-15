@@ -18,9 +18,11 @@
         </card-info>
       </div>
       <div class="form">
-        <h1 class="title">操作</h1>
-        <input type="text" v-model="name" placeholder="查询的英雄名" />
-        <input type="text" v-model="new_name" placeholder="新名字" />
+        <div class="edit">
+          <h1 class="title">操作</h1>
+          <input type="text" v-model="name" placeholder="查询的英雄名" />
+          <input type="text" v-model="new_name" placeholder="新名字" />
+        </div>
         <div class="send">
           <div class="get btn" :class="{ disable: disable }" @click="get">
             获取信息
@@ -341,13 +343,34 @@ export default {
   width: 100vw;
   display: flex;
   background-color: #000;
+  @media screen and (max-width: 860px) {
+    flex-direction: column-reverse;
+  }
   .hero-list {
     position: relative;
     width: 75%;
     min-height: 100vh;
     display: grid;
-    grid-template-columns: repeat(6, 1fr); //关键代码
+    grid-template-columns: repeat(6, 1fr);
     align-content: flex-start;
+    @media screen and (max-width: 1300px) {
+      grid-template-columns: repeat(5, 1fr);
+    }
+    @media screen and (max-width: 1080px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    @media screen and (max-width: 860px) {
+      width: 100%;
+    }
+    @media screen and (max-width: 660px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @media screen and (max-width: 500px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media screen and (max-width: 330px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
   }
   .req {
     position: fixed;
@@ -356,6 +379,18 @@ export default {
     height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
+    @media screen and (max-width: 860px) {
+      position: relative;
+      width: 100%;
+      height: 50vh;
+    }
+    @media screen and (max-width: 600px) {
+      display: flex;
+      height: 35vh;
+    }
+    @media screen and (max-width: 400px) {
+      height: 50vh;
+    }
     .bg {
       position: absolute;
       inset: 0;
@@ -373,30 +408,74 @@ export default {
       font-size: 35px;
       font-weight: bold;
       margin-bottom: 25px;
+      @media screen and (max-width: 1111px) {
+        margin-bottom: 10px;
+      }
     }
     .form {
       display: flex;
       flex-direction: column;
       align-items: center;
       color: #fff;
-      .title {
-        font-size: 40px;
-        margin-bottom: 25px;
+      @media screen and (max-width: 860px) {
+        flex-direction: row;
       }
-      input {
-        border: none;
-        font-size: 25px;
-        border-bottom: 2px solid #fff;
-        color: #fff;
-        text-align: center;
-        margin-bottom: 25px;
+      @media screen and (max-width: 600px) {
+        flex: 1;
+        flex-direction: column;
+      }
+      .edit {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .title {
+          font-size: 40px;
+          margin-bottom: 25px;
+          @media screen and (max-width: 600px) {
+            font-size: 30px;
+            margin-bottom: 10px;
+          }
+        }
+        input {
+          width: 90%;
+          border: none;
+          font-size: 25px;
+          border-bottom: 2px solid #fff;
+          color: #fff;
+          text-align: center;
+          margin-bottom: 25px;
+          @media screen and (max-width: 600px) {
+            margin-bottom: 10px;
+            font-size: 20px;
+          }
+        }
       }
       .send {
         width: 100%;
         display: grid;
-        grid-template-columns: repeat(2, 1fr); //关键代码
         grid-gap: 20px;
         padding: 25px;
+        grid-template-columns: repeat(2, 1fr);
+        @media screen and (max-width: 1111px) {
+          grid-template-columns: none;
+          padding: 10px 25px;
+          grid-gap: 15px;
+        }
+        @media screen and (max-width: 860px) {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        @media screen and (max-width: 600px) {
+          grid-template-columns: repeat(2, 1fr);
+          overflow: auto;
+        }
+
+        @media screen and (max-width: 400px) {
+          grid-template-columns: repeat(1, 1fr);
+          grid-gap: 10px;
+        }
+
         .btn {
           width: 100%;
           height: 50px;
@@ -460,6 +539,10 @@ export default {
               color: @color;
               background-color: @color6;
             }
+          }
+          @media screen and (max-width: 600px) {
+            height: 35px;
+            line-height: 35px;
           }
         }
       }

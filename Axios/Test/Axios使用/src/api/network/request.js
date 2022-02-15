@@ -31,13 +31,3 @@ export function patchReq(url, data) {
 export function deleteReq(url) {
   return server({ method: "DELETE", url });
 }
-
-//#####·········拦截器··········#####//
-//####·······请求拦截器········####//
-axios.interceptors.request.use((config) => {
-  return config;
-});
-//####·······响应拦截器········####//
-axios.interceptors.response.use((res) => {
-  return res;
-});
