@@ -2456,7 +2456,7 @@ target; // {a:1, b:2, c:3}
 
   //从 Foo.prototype 分支，直达 null
   console.log(Foo.prototype.constructor === Foo);
-  console.log(Foo.__proto__ == Function.prototype);
+  console.log(Foo.__proto__ === Function.prototype);
   console.log(Function.prototype.__proto__ === Object.prototype);
   console.log(Object.prototype.__proto__ === null);
 
