@@ -1,14 +1,14 @@
-import { instance } from './request';
+import { instance } from "./request";
 export function getDetail(iid) {
   return instance({
-    url: '/detail',
+    url: "/detail",
     params: { iid },
   });
 }
 
 export function getRecommend() {
   return instance({
-    url: 'recommend',
+    url: "recommend",
   });
 }
 
@@ -39,7 +39,7 @@ export class Shop {
 
 export class GoodsParam {
   constructor(info, rule) {
-    this.image = info.image ? info.images[0] : '';
+    this.image = info.image ? info.images[0] : "";
     this.infos = info.set;
     this.sizes = rule.tables;
   }

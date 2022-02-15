@@ -985,7 +985,7 @@ console.log(b); //{ a: 1, b: 2, c: 3, d: 4 }
 
 > `try`：捕获 try 作用域里面的第一个异常
 >
-> `catch`：抛出 try 捕获的异常
+> `catch`：抛出`try`捕获的异常，`(err)`可省略
 
 ```js
 try {
@@ -1093,17 +1093,6 @@ let str = '123456';
 console.log(str.slice(1, 4)); //'234'
 ```
 
-### 字符串翻转
-
-```js
-function ReverseStr(str = '') {
-  return str.split('').reduceRight((items, item) => items + item);
-}
-
-const str = 'reduce最牛逼';
-ReverseStr(str); // "逼牛最ecuder"
-```
-
 ### substr 截取指定个数字符
 
 > `substr(3, 2)`：从下标 3 开始截取，共截取 2 个字符
@@ -1186,8 +1175,11 @@ let b = 123 + ' ';
 ```js
 let str = '123321';
 console.log(str.replace('3', '0')); //'120321'
-//替换全部
-console.log(str.replace(/3/g, '0')); //'123321'
+
+/* 替换全部 */
+console.log(str.replace(/3/g, '0')); //'120321'
+//等价于
+console.log(str.replaceAll('3', '0')); //'120021'
 ```
 
 ### split 字符串转数组
@@ -1212,6 +1204,28 @@ let a = '  123   ';
 console.log(a.trim()); //123
 ```
 
+### padStart/End字符补充
+
+```js
+let h = "6",
+  m = "6",
+  s = "6";
+console.log(
+  h.padStart(2, "0") + ":" + m.padStart(2, "0") + ":" + s.padStart(2, "0")
+);
+
+let tel = "12345678910";
+console.log(tel.slice(0, 6).padEnd(11, "*"));
+```
+
+### starts/endWith判断开头结尾字符
+
+```js
+let str1 = "Hello world";
+str.startsWith("Hello"); //true
+str.endsWith("world"); //true
+```
+
 ### 大小写转换
 
 > 不会修改原字符串
@@ -1220,6 +1234,17 @@ console.log(a.trim()); //123
 var str = 'Ab123Cd';
 console.log(str.toUpperCase()); //AB123CD
 console.log(str.toLowerCase()); //ab123cd
+```
+
+### 字符串翻转
+
+```js
+function ReverseStr(str = '') {
+  return str.split('').reduceRight((items, item) => items + item);
+}
+
+const str = 'reduce最牛逼';
+ReverseStr(str); // "逼牛最ecuder"
 ```
 
 ## 数组
@@ -1400,6 +1425,25 @@ for ([k, v] of arr.entries()) {
   console.log(k, v);
 }
 /*0 a 1 b 2 c 3 d*/
+```
+
+### for await of  异步遍历数组
+
+```js
+function TimeOut(time) {
+  return new Promise((resolve) => {
+    setTimeout(function () {
+      resolve(time);
+    }, time);
+  });
+}
+async function test() {
+  let arr = [TimeOut(1000), TimeOut(2000), TimeOut(3000)];
+  for await (let item of arr) {
+    console.log(item);
+  }
+}
+test();
 ```
 
 ### forEach 遍历数组
@@ -2450,6 +2494,22 @@ console.log(a ?? '空'); //空
 console.log(b ?? '未定义'); //未定义
 console.log(c ?? '无'); //''
 console.log(d ?? '零'); //0
+```
+
+### 逻辑运算符和赋值表达式
+
+```js
+x &&= y
+//等价于
+x && (x = y);
+
+x ||= y
+//等价于
+x || (x = y)
+
+x ??= y
+//等价于
+x ?? (x = y)
 ```
 
 ## 箭头函数
