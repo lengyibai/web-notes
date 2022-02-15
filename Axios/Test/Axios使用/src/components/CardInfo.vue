@@ -53,6 +53,7 @@ export default {
     border-radius: 50%;
     margin-bottom: 25px;
     z-index: 1;
+    box-shadow: 0px -5px 15px 0px #000;
   }
   .name {
     font-size: 50px;
@@ -62,6 +63,7 @@ export default {
       linear-gradient(transparent, transparent 25%, rgba(0, 0, 0, 0.25));
     margin-bottom: 25px;
     z-index: 1;
+    text-shadow: 1px 1px 15px, 1px 1px 60px;
   }
 }
 </style>

@@ -49,10 +49,12 @@ export default {
     filter: blur(25px) contrast(125%) brightness(75%);
   }
   img {
+    position: relative;
     width: 100px;
     border-radius: 50%;
     margin-bottom: 10px;
     z-index: 1;
+    box-shadow: 0px -5px 15px 0px #000;
   }
   .name {
     font-size: 35px;
@@ -61,6 +63,7 @@ export default {
     -webkit-box-reflect: below 5px
       linear-gradient(transparent, transparent 25%, rgba(0, 0, 0, 0.25));
     margin-bottom: 25px;
+    text-shadow: 1px 1px 15px, 1px 1px 60px;
     z-index: 1;
   }
 }
