@@ -1456,54 +1456,6 @@ export default {
 };
 ```
 
-## 滚动行为
-
->
-
-`App.vue`
-
-```html
-<template>
-  <div class="app">
-    <div class="top">
-      <router-link :to="{ path: '/A', hash: '#A' }">跳转到A</router-link>
-      <router-link :to="{ path: '/B', hash: '#B' }">跳转到B</router-link>
-      <router-link :to="{ path: '/C', hash: '#C' }">跳转到C</router-link>
-    </div>
-    <div class="main">
-      <div class="a" id="A">第一</div>
-      <div class="b" id="B">第二</div>
-      <div class="c" id="C">第三</div>
-    </div>
-  </div>
-</template>
-```
-
-`router/index.js`
-
-```js
-const router = new VueRouter({
-  routes,
-  scrollBehavior(to, from, save) {
-    if (save) {
-      //save记录上一次的位置
-      return save;
-    } else {
-      return {
-        //绑定锚点
-        selector: to.hash,
-        //平滑滚动
-        behavior: "smooth",
-        //
-        offset: {
-          y: 65,
-        },
-      };
-    }
-  },
-});
-```
-
 # Vuex
 
 ## 安装

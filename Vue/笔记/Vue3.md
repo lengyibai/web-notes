@@ -46,8 +46,6 @@ app.use(store);
 app.mount('#app');
 ```
 
-
-
 ## setup
 
 > 比`beforeCreate`先执行，`this`是`undefined`
