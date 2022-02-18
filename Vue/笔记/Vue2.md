@@ -81,13 +81,19 @@
 >
 > `created(){}`：数据已被初始化和响应式处理，在这里可以访问到数据，但还没挂载`Dom`
 >
-> `beforeMount(){}`：`main.js`内的`render`函数在这调用，以及生成虚拟`Dom`
+> `beforeMount(){}`：虚拟`Dom`生成完毕调用
 >
-> `mounted(){}`：真实`Dom`挂载完毕
+> `mounted(){}`：真实`Dom`挂载完毕调用
 >
 > `beforeUpdate(){}`：`Dom`上的数据发生改变时调用
 >
 > `updated(){}`：`Dom`数据改变后重新挂载后调用
+>
+> `beforeDestroy(){}`：实例销毁之前调用，此时还能访问数据
+>
+> `destroyed(){}`：实例销毁后调用
+>
+> 以上两个钩子不能使用`keep-alive`
 >
 > 
 >
@@ -98,12 +104,6 @@
 > `activated(){}`：跳转到当前页面，就会执行此函数
 >
 > `deactivated(){}`：从当前页面跳转到其他页面时调用
->
-> 以下两个钩子不能使用`keep-alive`
->
-> `beforeDestroy(){}`：实例销毁之前调用，此时还能访问数据
->
-> `destroyed(){}`：实例销毁后调用
 >
 > 父beforeCreate -> 父created -> 父beforeMount -> 子beforeCreate -> 子created -> 子beforeMount -> 子mounted -> 父mounted
 
@@ -764,24 +764,35 @@ props:{
 </script>
 ```
 
-### 父传孙 $attrs
+### 父传孙 $attrs & $listener
 
-> 注：`$attrs`只接收子组件未在`props`声明的值
+> `$attrs`继承所有的父组件属性（除了`prop`传递的属性、`class`和`style`）
+>
+> `$listeners` 包含了父组件中的 (不含`.native`修饰符) 的事件
 
 <!--父-->
 
 ```vue
 <template>
-  <son lyb="冷弋白" />
+  <son lyb="冷弋白" @sonFn="sonFn" @click="fn" />
 </template>
+<script>
 ```
 
 <!--子-->
 
 ```vue
 <template>
-  <grandson v-bind="$attrs" />
+	<!-- 通过$listeners将事件转发给父组件，可以直接在子组件上使用 -->
+  <grandson v-bind="$attrs" v-on="$listeners" />
 </template>
+<script>
+  export default {
+    mounted() {
+      console.log(this.$listeners); //{click: ƒ, sonFn: ƒ}
+    },
+  };
+</script>
 ```
 
 <!--孙-->
@@ -790,21 +801,107 @@ props:{
 <template>
   {{ lyb }}
 </template>
- <script>
-  export default {
-    props: {
-      lyb: {
-        type: String,
-        default: '',
-      },
+<script>
+export default {
+  props: {
+    lyb: {
+      type: String,
+      default: '',
     },
-  };
+  },
+  methods: {
+    son() {
+      this.$emit("sonFn");
+    },
+	},
+};
+</script>
+```
+
+### 祖先传后代 provide &inject
+
+> 在`provide`内的数据，在当前组件内的所有组件中，都可以通过`inject`来使用
+>
+> `provide`内的变量不支持响应式，但传入对象可以，还可传递函数
+>
+> 只适用于开发组件，样式继承之类的
+
+<!--父-->
+
+```vue
+<template>
+  <son />
+</template>
+<script>
+export default {
+  name: "App",
+  props: {},
+  provide() {
+    return {
+      lyb: this.lyb,
+      fn: this.fn,
+    };
+  },
+  data() {
+    return {
+      lyb: {
+        name: "冷弋白",
+      },
+    };
+  },
+  components: { father },
+  methods: {
+    fn() {
+      this.lyb.name = "lengyibai";
+    },
+  },
+};
+</script>
+```
+
+<!--子-->
+
+```vue
+<template>
+  <grandson />
+</template>
+<script>
+import son from "./son.vue";
+export default {
+  components: { son },
+};
+</script>
+```
+
+<!--孙-->
+
+```vue
+<template>
+  <div>
+    <h1>{{ lyb.name }}</h1>
+    <button @click="fn">点我修改</button>
+  </div>
+</template>
+<script>
+export default {
+  name: "index",
+  inject: {
+    lyb: {
+      default: "",
+    },
+    fn: {
+      default: () => {},
+    },
+  },
+};
 </script>
 ```
 
 ### slot 插槽
 
 > 插槽内容的类名，在当前页面和组件那边也会生效
+>
+> 使用场景：当祖先组件要向父组件内的子组件传递数据，一般需要先将数据传递给父组件，再传递给子组件，使用插槽可以直接在祖先组件内引入孙组件，再放置在父组件的插槽内
 
 ```html
 <!-- 旧版 -->
