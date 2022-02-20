@@ -2432,12 +2432,6 @@ target; // {a:1, b:2, c:3}
 >
 > 函数也是一种对象，所以函数也拥有`__proto__`和`constructor`属性
 
-| 属性          | 描述                          |
-| ------------- | ----------------------------- |
-| `constructor` | 存在于`prototype`，指向函数   |
-| `prototype`   | 存在于`函数`                  |
-| `__proto__`   | 存在于`函数`，指向`prototype` |
-
 <!--原型链-->
 
 <img src="img/原型链.png" style="zoom:50%;" />
