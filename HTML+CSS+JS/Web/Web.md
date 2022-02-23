@@ -984,7 +984,7 @@ let b = JSON.parse(a);
 console.log(b); //{ a: 1, b: 2, c: 3, d: 4 }
 ```
 
-## try...catch
+## 报错处理
 
 > `try`：捕获`try`作用域里面的第一个异常
 >
@@ -998,6 +998,13 @@ try {
   console.err(err); //在控制台显示异常，但不会终止程序
 }
 alert('a');
+```
+
+### 手动抛出错误
+
+```js
+throw new Error('错误'); //会中断后面的操作
+console.error('错误'); //仅仅打印错误
 ```
 
 ## Number 相关
