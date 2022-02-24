@@ -2519,7 +2519,7 @@ console.log(obj.a.b); //直接报错
 object?.property = 1; //不能用于赋值
 ```
 
-### 空值合并运算符
+### 空值合并操作符
 
 > 只有为`null`和`undefined`才会使用后者
 
