@@ -42,6 +42,19 @@ mounted() {
 },
 ```
 
+# Element UI
+
+> `import "element-ui/lib/theme-chalk/index.css";`
+>
+> `import { } from "element-ui";`
+
+## MessageBox
+
+```js
+import { MessageBox } from "element-ui";
+Vue.prototype.$confirm = MessageBox.confirm;
+```
+
 # ES6转ES5
 
 ## 安装
