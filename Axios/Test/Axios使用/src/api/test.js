@@ -1,10 +1,4 @@
-import {
-  getReq,
-  postReq,
-  putReq,
-  patchReq,
-  deleteReq,
-} from "./network/request.js";
+import { getReq, postReq, putReq, patchReq, deleteReq } from "./network/request.js";
 
 //#####··········GET请求··········#####//
 //####········获取用户列表········####//
@@ -45,7 +39,7 @@ export const updateUser = (id, data) => {
 };
 
 //#####··········DELETE请求··········#####//
-//####········修改用户········####//
+//####········删除用户········####//
 export const delUser = (id) => {
   return deleteReq(`/heroList/${id}`);
 };
