@@ -897,7 +897,49 @@ export default {
 </script>
 ```
 
-### slot 插槽
+### event bus
+
+> 事件总线：子组件与子组件之间互相修改数据
+>
+> 实则只要组件引入了事件总线，都可以接收任何组件发送的事件参数
+
+`main.js`
+
+```js
+Vue.prototype.$bus = new Vue(); // event Bus 用于无关系组件间的通信。
+```
+
+`子组件1`
+
+> 向`$bus`发送一个事件
+
+```js
+export default {
+  fn() {
+    this.$bus.$emit("change", "lengyibai");
+  },
+};
+```
+
+`子组件2`
+
+> 接收发送的事件参数
+
+```js
+export default {
+  created() {
+    this.$bus.$on('change', value => {
+      console.log(value)
+    });
+  },
+  beforeDestroy() {
+  	//组件一销毁就需要关闭监听，防止重复监听
+    this.$bus.$off('change');
+  },
+};
+```
+
+## slot 插槽
 
 > 插槽内容的类名，在当前页面和组件那边也会生效
 >
@@ -1038,48 +1080,6 @@ const lyb = {
   },
 };
 Vue.prototype.$lyb = lyb;
-```
-
-## event bus
-
-> 事件总线：子组件与子组件之间互相修改数据
->
-> 实则只要组件引入了事件总线，都可以接收任何组件发送的事件参数
-
-`main.js`
-
-```js
-Vue.prototype.$bus = new Vue(); // event Bus 用于无关系组件间的通信。
-```
-
-`子组件1`
-
-> 向`$bus`发送一个事件
-
-```js
-export default {
-  fn() {
-    this.$bus.$emit("change", "lengyibai");
-  },
-};
-```
-
-`子组件2`
-
-> 接收发送的事件参数
-
-```js
-export default {
-  created() {
-    this.$bus.$on('change', value => {
-      console.log(value)
-    });
-  },
-  beforeDestroy() {
-  	//组件一销毁就需要关闭监听，防止重复监听
-    this.$bus.$off('change');
-  },
-};
 ```
 
 ## Vue API
