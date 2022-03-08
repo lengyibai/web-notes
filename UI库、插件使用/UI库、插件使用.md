@@ -24,7 +24,7 @@
 
 ```js
 mounted() {
-  this.scroll = new BScroll('.wrapper', { 
+  this.scroll = new BScroll('.wrapper', {
     pullUpLoad: true, //上拉加载
     pullDownRefresh: true, //下拉刷新
     probeType: 3, //开启侦测滚动坐标
@@ -40,19 +40,6 @@ mounted() {
     useTransition: false,//解决滑动抖动问题
   });
 },
-```
-
-# Element UI
-
-> `import "element-ui/lib/theme-chalk/index.css";`
->
-> `import { } from "element-ui";`
-
-## MessageBox
-
-```js
-import { MessageBox } from "element-ui";
-Vue.prototype.$confirm = MessageBox.confirm;
 ```
 
 # ES6转ES5
