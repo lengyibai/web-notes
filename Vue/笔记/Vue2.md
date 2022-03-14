@@ -2195,6 +2195,24 @@ fn11(state, getters, rootState) {
 >
 > `modules`由于有多个模块，需要单独创建`modules`文件夹，文件夹内就是每个模块 js 文件
 
+### 独立模块名
+
+> 在模块导出时加上`namespaced: true`
+>
+> 使用模块中的`mutations`、`getters`、`actions`时候，要加上模块名
+
+```js
+export default {
+  namespaced: true,
+  state,
+  mutations,
+  actions
+}
+
+//在其它地方使用
+this.$store.commit("模块名/方法名")
+```
+
 # 移动端开发
 
 ## 手机访问 localhost
