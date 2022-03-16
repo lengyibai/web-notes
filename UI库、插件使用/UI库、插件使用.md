@@ -65,7 +65,6 @@ data() {
 ```html
 <el-table
   @sort-change="sortChange"
-  :default-sort="{ prop: 'createTime', order: 'descending' }"
 >
   <el-table-column
     sortable="custom"
@@ -76,6 +75,17 @@ data() {
     </template>
   </el-table-column>
 </el-table>
+```
+
+## Bug
+
+### 对话框再次点开是上一次的数据
+
+> 添加`v-if`
+
+```vue
+<el-dialog :visible.sync="dialogVisible" v-if='dialogVisible'>
+</el-dialog>
 ```
 
 ## 导航栏
