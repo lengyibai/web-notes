@@ -19,8 +19,8 @@
 | npm un -S -g xxx                                             | 删除 xxx 全局模块                    |
 | npm install -g cnpm --registry=https://registry.npm.taobao.org | 安装淘宝镜像                         |
 | npm config set registry http://registry.npm.taobao.org       | 切换镜像源                           |
-| npm config get registry                                      | 查看当前使用的镜像源                 |
 | npm config set registry https://registry.npmjs.org/          | 还原镜像源                           |
+| npm config get registry                                      | 查看当前使用的镜像源                 |
 
 ## vscode 无法使用脚本
 
@@ -31,6 +31,52 @@
 > set-ExecutionPolicy RemoteSigned
 >
 > get-ExecutionPolicy
+
+## 项目标配
+
+```json
+{
+  "name": "demo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "core-js": "^3.8.3",
+    "vue": "^2.6.14"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "lint-staged": "^11.1.2",
+    "prettier": "^2.4.1",
+    "vue-template-compiler": "^2.6.14"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,vue}": "vue-cli-service lint"
+  }
+}
+```
+
+
 
 # Vue
 
