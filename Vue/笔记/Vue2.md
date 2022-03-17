@@ -665,9 +665,10 @@ filters: {
 // 注册一个全局自定义指令
 Vue.directive('focus', {
   // 当被绑定的元素插入到 DOM 中时……
-  inserted: function (el) {
+  inserted: function (el,binding) {
     // 聚焦元素
     el.focus()
+    console.log(binding.value); //传值
   }
 })
 

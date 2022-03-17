@@ -1,15 +1,15 @@
-module.exports = {
-  devServer: {
-    port: 9999,
-    open: true,
-    hot: true,
-  },
+const { defineConfig } = require('@vue/cli-service');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+
+module.exports = defineConfig({
+  transpileDependencies: true,
   configureWebpack: {
+    plugins: [new NodePolyfillPlugin()],
     resolve: {
       alias: {
-        src: "@/",
-      },
-    },
+        src: '@/'
+      }
+    }
   },
-  publicPath: "./",
-};
+  publicPath: './'
+});
