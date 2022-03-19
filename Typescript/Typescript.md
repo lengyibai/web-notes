@@ -6,7 +6,11 @@
 
 # Typescript
 
-> 直接在`vscode`运行：`npm install -g ts-node`
+> `npm install -g typescript`
+>
+> `npm install -g ts-node`
+>
+> `npm install -D tslib @types/node`
 
 ```js
 

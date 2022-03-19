@@ -260,48 +260,21 @@
 
 ## 文本样式
 
-### 块级元素
-
-| 标签  |
-| ----- |
-| h1-h6 |
-| p     |
-| div   |
-| ul    |
-| ol    |
-| li    |
-
 ### 行内元素
 
-| 标签   | 说明               |
-| :----- | ------------------ |
-| a      | 定义超链接文本     |
-| strong | 强调粗体文本       |
-| b      | 定义粗体文本       |
-| em     | 强调斜体文本       |
-| i      | 定义斜体文本       |
-| del    | 定义划掉文本       |
-| ins    | 定义下划线文本     |
-| u      | 定义下划线文本     |
-| sub    | 定义下对齐         |
-| sup    | 定义上对齐         |
-| q      | 定义引用语（引号） |
-| pre    | 保留空格和换行     |
-
-### 行内块元素
-
-| 标签  |
-| ----- |
-| img   |
-| input |
-| id    |
-
-## text-decoration
-
-| 属性值       | 说明       |
-| ------------ | ---------- |
-| underline    | 添加下划线 |
-| line-through | 添加中划线 |
+| 标签   | 说明           |
+| :----- | -------------- |
+| a      | 定义超链接文本 |
+| strong | 强调粗体文本   |
+| b      | 定义粗体文本   |
+| em     | 强调斜体文本   |
+| i      | 定义斜体文本   |
+| del    | 定义划掉文本   |
+| ins    | 定义下划线文本 |
+| u      | 定义下划线文本 |
+| sub    | 定义下对齐     |
+| sup    | 定义上对齐     |
+| pre    | 保留空格和换行 |
 
 ## background
 
@@ -339,10 +312,6 @@ background-position: bottom 50px right 100px;
 ```css
 background-image: linear-gradient(起始方向，颜色1 0%，颜色2 50%, 颜色3 100%);
 ```
-
-## textarea
-
-> `resize:none`：针对文本域所使用，防止用户拖拽文本域
 
 ## 宽高相等
 
@@ -1245,7 +1214,13 @@ str.startsWith("Hello"); //true
 str.endsWith("world"); //true
 ```
 
-### 大小写转换
+### 重复字符串
+
+```js
+"superman".repeat(2); ////supermansuperman
+```
+
+## 大小写转换
 
 > 不会修改原字符串
 
@@ -2031,6 +2006,13 @@ observer.observe(el, {
 ### 选择器操作
 
 > 如果需要更改多个属性，则可使用这个
+>
+> 也可直接`el.style.cssText`设置样式，告别`style`逐个设置
+
+```js
+const box = document.querySelector('.lyb')
+style.cssText = 'color:#ccc; font-size:18px';
+```
 
 | 操作                             | 说明                                   |
 | -------------------------------- | -------------------------------------- |
@@ -2086,11 +2068,11 @@ document.body.innerHTML = array.join(" "); //join转换成字符串
 
 ### 事件对象
 
-| 属性                | 说明                                                                                                     |
-| ------------------- | -------------------------------------------------------------------------------------------------------- |
-| e.target            | 父节点事件，点击子元素，返回那个元素                                                                     |
-| e.type              | 返回不带 on 的事件类型                                                                                   |
-| e.preventDefault()  | 阻止默认事件(让链接不跳转)                                                                               |
+| 属性                | 说明                                                         |
+| ------------------- | ------------------------------------------------------------ |
+| e.target            | 父节点事件，点击子元素，返回那个元素                         |
+| e.type              | 返回不带 on 的事件类型                                       |
+| e.preventDefault()  | 阻止默认事件(让链接不跳转)                                   |
 | e.stopPropagation() | 阻止冒泡(当父子元素都有事件监听，点击子元素后父元素也会触发事件，将阻止冒泡写给子元素即可阻止父元素触发) |
 
 #### 事件委托
@@ -2601,26 +2583,6 @@ let str2 = `<div>
 console.log(str2);
 let fn5 = () => "函数";
 console.log(`我是${fn5()}`);
-```
-
-### startWith()/endsWith()
-
-> 判断字符串中是否包含某些字符串
->
-> `startWith()`：如果在字符串的起始部分检测到指定文本则返回`true`
->
-> `endsWith()`：如果在字符串的结束部分检测到指定文本则返回`true`
-
-```js
-const str = "superman";
-const subStr = "super";
-console.log(str.includes(subStr)); //true
-```
-
-### 重复字符串
-
-```js
-"superman".repeat(2); ////supermansuperman
 ```
 
 ## 默认参数

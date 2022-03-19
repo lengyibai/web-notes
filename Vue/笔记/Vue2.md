@@ -1822,7 +1822,7 @@ const store = new Vuex.Store({
 `组件`
 
 ```js
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 export default {
   computed：{
     //第一种写法
