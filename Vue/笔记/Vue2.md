@@ -882,14 +882,7 @@ export default {
 <script>
 export default {
   name: "App",
-  props: {},
   provide() {
-    return {
-      lyb: this.lyb,
-      fn: this.fn,
-    };
-  },
-  data() {
     return {
       lyb: {
         name: "冷弋白",
