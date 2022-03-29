@@ -46,6 +46,12 @@ mounted() {
 
 ## 时间选择器
 
+```vue
+<el-date-picker
+  :picker-options="pickerOptions"
+/>
+```
+
 > 禁止选择未来时间
 
 ```js
@@ -59,6 +65,22 @@ data() {
   }
 }
 ```
+
+> 禁止选择过去时间
+
+```js
+data() {
+  return {
+    pickerOptions: {
+      disabledDate(time) {
+        return time.getTime() < Date.now() - 86400000;
+      },
+    },
+  }
+}
+```
+
+
 
 ## 自定义排序
 
