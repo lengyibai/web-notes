@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "json-serve": "json-server --watch db.json"
+    "json-serve": "json-server --watch  --port 1000 db.json"
   },
   "dependencies": {
     "axios": "^0.26.0",

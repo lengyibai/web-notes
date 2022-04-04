@@ -549,7 +549,7 @@ div {
 | text-indent                    | 首行缩进，2em 表示两个汉字的距离                            |
 | letter-spacing                 | 字符间距，px 为单位                                         |
 | word-spacing                   | 单词间距                                                    |
-| word-wrap: break-word          | 文字换行                                                    |
+| word-break：break-all          | 文字换行                                                    |
 | white-space: nowrap            | 文字不换行，直到遇到 `<br/>`标为止                          |
 | writing-mode: vertical-lr      | 文字从上到下从左到右排列                                    |
 | -webkit-text-stroke: 宽度 颜色 | 文字描边                                                    |
@@ -1850,18 +1850,19 @@ const map = people.reduce((t, v) => {
 
 ## Date 对象
 
-| 描述                          | 代码                                                                             |
-| ----------------------------- | -------------------------------------------------------------------------------- |
-| 时间戳                        | new Date().getTime()                                                             |
-| 指定时间戳                    | time.getTime()                                                                   |
-| 年                            | new Date().getFullYear()                                                         |
-| 月                            | let mon = new Date().getMonth() + 1<br/>mon = mon < 10 ? '0' + mon : mon         |
-| 日                            | let d = new Date().getDate()<br/>d = d < 10 ? '0' + d : d                        |
+| 描述                          | 代码                                                         |
+| ----------------------------- | ------------------------------------------------------------ |
+| 时间转时间戳                  | new Date('2019-08-08 16:51:07').getTime()                    |
+| 时间戳                        | new Date().getTime()                                         |
+| 指定时间戳                    | time.getTime()                                               |
+| 年                            | new Date().getFullYear()                                     |
+| 月                            | let mon = new Date().getMonth() + 1<br/>mon = mon < 10 ? '0' + mon : mon |
+| 日                            | let d = new Date().getDate()<br/>d = d < 10 ? '0' + d : d    |
 | 星期                          | let arr = ['日', '一', '二', '三', '四', '五', '六']<br/>arr[new Date().getDay() |
-| 时                            | let h = new Date().getHours()<br/>h = h < 10 ? '0' + h : h                       |
-| 分                            | let min = new Date().getMinutes()<br/>min = min < 10 ? '0' + min : min           |
-| 秒                            | let s = new Date().getSeconds()<br/>s = s < 10 ? '0' + s : s                     |
-| 毫秒数<br />计时器 100 生效效 | parseInt(new Date().getMilliseconds() / 100)                                     |
+| 时                            | let h = new Date().getHours()<br/>h = h < 10 ? '0' + h : h   |
+| 分                            | let min = new Date().getMinutes()<br/>min = min < 10 ? '0' + min : min |
+| 秒                            | let s = new Date().getSeconds()<br/>s = s < 10 ? '0' + s : s |
+| 毫秒数<br />计时器 100 生效效 | parseInt(new Date().getMilliseconds() / 100)                 |
 
 ## 递归
 
@@ -2421,7 +2422,7 @@ console.log(deep);
 
 **Object.assign()**
 
-> 如果第一个对象内有的属性与第二对象内的属性有重复，则第二对象的属性会覆盖掉第一对象的属性
+> 如果第一个对象内有的属性与第二对象内的属性有重复，c第二对象的属性会覆盖掉第一对象的属性
 
 ```js
 const target = { a: 1, b: 1 };

@@ -44,6 +44,83 @@ mounted() {
 
 # Element UI
 
+## 表格自适应宽度(非分配)
+
+```vue
+<el-table-column label="标题" prop="title" :width="lyb('title',dataList)" />
+<script>
+  export default {
+    computed(){
+      lyb() {
+        return function flexColumnWidth(str, tableData, flag = 'max') {
+          // str为该列的字段名(传字符串);tableData为该表格的数据源(传变量);
+          // flag为可选值，可不传该参数,传参时可选'max'或'equal',默认为'max'
+          // flag为'max'则设置列宽适配该列中最长的内容,flag为'equal'则设置列宽适配该列中第一行内容的长度。
+          str = str + '';
+          let columnContent = '';
+          if (!tableData || !tableData.length || tableData.length === 0 || tableData === undefined) {
+            return;
+          }
+          if (!str || !str.length || str.length === 0 || str === undefined) {
+            return;
+          }
+          if (flag === 'equal') {
+            // 获取该列中第一个不为空的数据(内容)
+            for (let i = 0; i < tableData.length; i++) {
+              if (tableData[i][str].length > 0) {
+                // console.log('该列数据[0]:', tableData[0][str])
+                columnContent = tableData[i][str];
+                break;
+              }
+            }
+          } else {
+            // 获取该列中最长的数据(内容)
+            let index = 0;
+            for (let i = 0; i < tableData.length; i++) {
+              if (tableData[i][str] === null) {
+                return;
+              }
+              const now_temp = tableData[i][str] + '';
+              const max_temp = tableData[index][str] + '';
+              if (now_temp.length > max_temp.length) {
+                index = i;
+              }
+            }
+            columnContent = tableData[index][str];
+          }
+          console.log('该列数据[i]:', columnContent);
+          // 以下分配的单位长度可根据实际需求进行调整
+          let flexWidth = 0;
+          for (const char of columnContent) {
+            if ((char >= 'A' && char <= 'Z') || (char >= 'a' && char <= 'z')) {
+              // 如果是英文字符，为字符分配8个单位宽度
+              flexWidth += 8;
+            } else if (char >= '\u4e00' && char <= '\u9fa5') {
+              // 如果是中文字符，为字符分配15个单位宽度
+              flexWidth += 20;
+            } else {
+              // 其他种类字符，为字符分配8个单位宽度
+              flexWidth += 9;
+            }
+          }
+          if (flexWidth < 80) {
+            // 设置最小宽度
+            flexWidth = 80;
+          }
+          // if (flexWidth > 250) {
+          //   // 设置最大宽度
+          //   flexWidth = 250
+          // }
+          return flexWidth + 'px';
+        };
+      },
+    }
+  }
+</script>
+```
+
+
+
 ## 时间选择器
 
 ```vue
@@ -80,6 +157,53 @@ data() {
 }
 ```
 
+## 选择器远程搜索
+
+```vue
+<template>
+	<el-select
+    v-model="form_reg.organAdminMobile"
+    filterable
+    remote
+    reserve-keyword
+    placeholder="请输入关键词"
+    :remote-method="remoteMethod"
+    :loading="loading"
+  >
+    <el-option
+      v-for="item in searchUser"
+      :key="item.id"
+      :label="item.mobile"
+      :value="item.mobile"
+    ></el-option>
+  </el-select>
+</template>
+<script>
+	import { users } from "@/api/system.js";
+	export default {
+    data(){
+      return {
+        form_reg: {
+          organAdminMobile: 0
+        }, // 机构注册表单
+        searchUser: [],//搜索系统管理员手机号
+        loading: false,//创建表单搜索手机号显示
+      }
+    }
+    method:{
+      /* 系统管理员设置远程搜索 */
+      remoteMethod(v) {
+        this.loading = true;
+        users({ mobile: v }).then((res) => {
+          this.loading = false;
+          this.searchUser = res.data.data.records
+        });
+      },
+  	}
+  }
+</script>
+```
+
 
 
 ## 自定义排序
@@ -97,17 +221,26 @@ data() {
     </template>
   </el-table-column>
 </el-table>
-```
-
-## Bug
-
-### 对话框再次点开是上一次的数据
-
-> 添加`v-if`
-
-```vue
-<el-dialog :visible.sync="dialogVisible" v-if='dialogVisible'>
-</el-dialog>
+<script>
+export default {
+  methods:{
+    sortChange({ prop, order }){
+      this.query_params.page = 1;
+      if (order === 'ascending') {
+        //升序
+        this.query_params[prop] = 1;
+      } else if (order === 'descending') {
+        //降序
+        this.query_params[prop] = 0;
+      } else {
+        //无序
+        this.query_params[prop] = '';
+      }
+      this.getList();
+    }
+  }
+}
+</script>
 ```
 
 ## 导航栏

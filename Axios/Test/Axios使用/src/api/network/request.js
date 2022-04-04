@@ -2,7 +2,7 @@ import axios from "axios";
 
 //#####··········域名管理··········#####//
 const server = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "http://localhost:1000",
   time: 10000,
 });
 
