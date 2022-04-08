@@ -17,3 +17,18 @@
 > 运行项目未显示一大串加载代码且只有一行加载提示，并且加载过程中打开了浏览器空白页
 >
 > 如果`@vue/cli-service`为`@5`版本，则下载`@4`
+
+## Webpack版本报错
+
+> webpack < 5 used to include polyfills for node.js core modules by default
+
+```js
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+
+module.exports = defineConfig({
+  configureWebpack: {
+    plugins: [new NodePolyfillPlugin()]
+  },
+});
+```
+
