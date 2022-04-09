@@ -239,24 +239,23 @@
 | E:last-of-type   | 最后一个                                                         |
 | E:nth-of-type(n) | 第 n 个                                                          |
 
-## visibility
+## 伪元素设置动态content
 
-> 相比`display`，`visibility`隐藏之后会始终占用原来的位置，而`display`恰好相反
+> 通过arr获取自定义属性值
 
-| 属性    | 说明 |
-| ------- | ---- |
-| visible | 显示 |
-| hidden  | 隐藏 |
-
-## cursor
-
-| 属性        | 说明             |
-| ----------- | ---------------- |
-| default     | 默认箭头样式     |
-| pointer     | 小手点击样式     |
-| move        | 十字箭头移动样式 |
-| text        | 文本输入样式     |
-| not-allowed | 禁止样式         |
+```html
+<style>
+  .lyb::after {
+    content: attr(data-name);
+  }
+</style>
+<body>
+  <div data-name="loading"></div>
+</body>
+<script>
+	el.dataset.percent = '冷弋白';
+</script>
+```
 
 ## 文本样式
 

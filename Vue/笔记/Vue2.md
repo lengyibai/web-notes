@@ -765,6 +765,38 @@ props:{
 </script>
 ```
 
+### 组件 v-model
+
+> 语法糖
+
+`lyb`
+
+```js
+this.$emit("input", this.value);
+```
+
+`App.js`
+
+```html
+<lyb v-model="value"></lyb>
+<script>
+  export default {
+    data() {
+      return {
+        value: "",
+      };
+    },
+    components: { BigInput },
+    watch: {
+      value() {
+        console.log(this.value);
+      },
+    },
+    methods: {},
+  };
+</script>
+```
+
 ### 父访问子
 
 #### $children
@@ -1018,38 +1050,6 @@ export default {
 <!-- 带名字 -->
 <slot :user="666" name="lyb"></slot>
 <template v-slot:lyb="{ user }"> {{ user }} </template>
-```
-
-### 组件 v-model
-
-> 语法糖
-
-`lyb`
-
-```js
-this.$emit("input", this.value);
-```
-
-`App.js`
-
-```html
-<lyb v-model="value"></lyb>
-<script>
-  export default {
-    data() {
-      return {
-        value: "",
-      };
-    },
-    components: { BigInput },
-    watch: {
-      value() {
-        console.log(this.value);
-      },
-    },
-    methods: {},
-  };
-</script>
 ```
 
 ## mixins 混入
