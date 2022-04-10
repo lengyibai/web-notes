@@ -771,30 +771,30 @@ props:{
 
 `lyb`
 
-```js
-this.$emit("input", this.value);
+```vue
+<template>
+	<input :value="value" @input="fn($event.target.value)" />
+</template>
+<script>
+  export default {
+    props:{
+      value:{
+        default: 0
+      }
+    },
+    methods:{
+      fn(v){
+        this.$emit("input", v);
+      }
+    }
+  }
+</script>
 ```
 
 `App.js`
 
 ```html
 <lyb v-model="value"></lyb>
-<script>
-  export default {
-    data() {
-      return {
-        value: "",
-      };
-    },
-    components: { BigInput },
-    watch: {
-      value() {
-        console.log(this.value);
-      },
-    },
-    methods: {},
-  };
-</script>
 ```
 
 ### 父访问子
