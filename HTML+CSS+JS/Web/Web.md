@@ -548,7 +548,7 @@ div {
 | text-indent                    | 首行缩进，2em 表示两个汉字的距离                            |
 | letter-spacing                 | 字符间距，px 为单位                                         |
 | word-spacing                   | 单词间距                                                    |
-| word-break：break-all          | 文字换行                                                    |
+| word-break:break-all           | 文字换行                                                    |
 | white-space: nowrap            | 文字不换行，直到遇到 `<br/>`标为止                          |
 | writing-mode: vertical-lr      | 文字从上到下从左到右排列                                    |
 | -webkit-text-stroke: 宽度 颜色 | 文字描边                                                    |
