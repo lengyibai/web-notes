@@ -1495,6 +1495,49 @@ function search(value) {
 console.log(search("奔"));
 ```
 
+#### 嵌套搜索
+
+> 返回数组内的数组内符合条件的数组
+
+```js
+function fn(arr, key, value) {
+  let search_arr = arr.filter(item => {
+    return item[key[0]].find(item => {
+      return item[key[1]].indexOf(value) !== -1;
+    });
+  });
+  search_arr.forEach(item => {
+    item[key[0]] = item[key[0]].filter(item => {
+      return item[key[1]].indexOf(value) !== -1;
+    });
+  });
+  return value ? search_arr : arr;
+}
+
+const arr = [
+  {
+    male: '男',
+    list: [{ name: '张三' }, { name: '李四' }],
+  },
+  {
+    male: '女',
+    list: [{ name: '王五' }, { name: '赵六' }],
+  },
+];
+
+console.log(JSON.parse(JSON.stringify(fn(arr, ['list', 'name'], '张三'))));
+/* [
+  {
+    "male": "男",
+    "list": [
+      {
+        "name": "张三"
+      }
+    ]
+  }
+] */
+```
+
 ### findIndex 查找元素
 
 > 返回第一个符合条件的数组成员的下标
