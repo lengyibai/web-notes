@@ -1979,6 +1979,16 @@ let a = null;
 cancelAnimationFrame(a);
 ```
 
+> 例如让移动事件控制元素更流畅
+
+```js
+body.addEventListener("mousemove", (e) => {
+  window.requestAnimationFrame(function () {
+    transformElement(e.clientX, e.clientY);
+  });
+});
+```
+
 ## 监听 Dom 元素 resize
 
 > MutationObserver
