@@ -1243,8 +1243,6 @@ Vue.prototype.$lyb = lyb;
 },
 ```
 
-<img src="img/closeEslint-01.png" alt="image-20210609152406239" style="zoom: 67%;" />
-
 # Vue Router
 
 ## 安装
