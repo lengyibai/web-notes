@@ -1,20 +1,9 @@
 <template>
   <div class="index">
-    <LybDragSort>
-      <template
-        v-slot="{ dragstart, dragover, drop, dragleave, currentIndex, animals }"
-      >
-        <div
-          class="box"
-          :class="{ active: currentIndex == index }"
-          @dragstart="dragstart(index)"
-          @dragover="dragover($event, index)"
-          @drop="drop(index)"
-          @dragleave="dragleave"
-          v-for="(item, index) in animals"
-          :key="item.name"
-        >
-          <div class="move" draggable="true">{{ item.name }}</div>
+    <LybDragSort :data="imgs">
+      <template v-slot:box="{ data }">
+        <div class="move" draggable="true">
+          <img :src="data.item.src" alt="" />
         </div>
       </template>
     </LybDragSort>
@@ -51,37 +40,21 @@ export default {
     };
   },
   components: { LybDragSort },
+  methods: {},
 };
 </script>
 <style scoped lang="less">
-.flex {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 .index {
   width: 100%;
   height: 100%;
-  .box {
-    position: relative;
-    width: 75px;
-    height: 75px;
+  .move {
+    width: 200px;
+    height: 200px;
     margin: 12.5px;
-    transition: all 0.5s;
-    .move {
-      .flex();
-      position: absolute;
+    img {
       width: 100%;
       height: 100%;
-      background-color: #000;
-      font-size: 25px;
-      color: #fff;
-      z-index: 1;
     }
   }
-}
-.active {
-  transform: scale(1.25);
-  opacity: 0.25;
 }
 </style>

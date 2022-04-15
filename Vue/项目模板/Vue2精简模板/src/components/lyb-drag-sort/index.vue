@@ -1,19 +1,35 @@
 <template>
   <div class="LybDragSort">
     <div class="transition-group" is="transition-group">
-      <slot
-        :currentIndex="currentIndex"
-        :animals="animals"
-        :dragstart="dragstart"
-        :dragover="dragover"
-        :drop="drop"
-        :dragleave="dragleave"
-      ></slot>
+      <div
+        class="box"
+        :class="{ active: currentIndex == index }"
+        @dragstart="dragstart(index)"
+        @dragover="dragover($event, index)"
+        @drop="drop(index)"
+        @dragleave="dragleave"
+        v-for="(item, index) in data"
+        :key="item[id]"
+      >
+        <slot name="box" :data="{ item, index }"></slot>
+      </div>
     </div>
   </div>
 </template>
 <script>
 export default {
+  props: {
+    data: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
+    id: {
+      type: String,
+      default: "name",
+    },
+  },
   name: "LybDragSort",
   data() {
     return {
@@ -60,7 +76,6 @@ export default {
     };
   },
   methods: {
-    //#####··········交换位置··········#####//
     exchange(arr, index, target) {
       if (index > target) {
         arr.splice(target, 0, arr[index]);
@@ -82,9 +97,9 @@ export default {
 
     drop(index) {
       this.currentIndex = null;
-      this.exchange(this.animals, this.fromIndex, index);
+      this.exchange(this.data, this.fromIndex, index);
 
-      console.log(this.animals);
+      console.log(this.data);
     },
 
     dragleave() {
@@ -106,6 +121,14 @@ export default {
   .transition-group {
     .flex();
     flex-wrap: wrap;
+    .box {
+      transition: all 0.5s;
+    }
   }
+}
+
+.active {
+  transform: scale(1.25);
+  opacity: 0.25;
 }
 </style>
