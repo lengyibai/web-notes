@@ -21,6 +21,8 @@
 ## Webpack版本报错
 
 > webpack < 5 used to include polyfills for node.js core modules by default
+>
+> `npm i node-polyfill-webpack-plugin`
 
 ```js
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
