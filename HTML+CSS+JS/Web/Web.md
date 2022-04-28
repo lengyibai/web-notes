@@ -1242,14 +1242,6 @@ ReverseStr(str); // "逼牛最ecuder"
 
 ## 数组
 
-### [数组转对象（扩展运算符）](#...数组转对象)
-
-### [数组拷贝（扩展运算符）](#...数组拷贝)
-
-### [数组展开（扩展运算符）](#...数组展开)
-
-### [对象转数组](#对象转数组遍历)
-
 ### concat 数组合并
 
 > 遗憾的是已被 ES6 的[利用扩展运算符数组合并](#数组合并)取代
@@ -1890,6 +1882,26 @@ const map = people.reduce((t, v) => {
 }, {}); // {YZW: {area: 'GZ', age: 27 }, TYJ: { area: 'SZ', age: 25}}
 ```
 
+### 迭代器
+
+> 与对象的`Object.entries()`相似，数组是直接`.entries()`
+>
+> 还有另外的`values()`和`keys()`
+
+```js
+const a = ['a', 'b', 'c', 'd']
+
+for (const [i, v] of a.entries()) {
+  console.log(i, v);
+}
+/*
+0 'a'
+1 'b'
+2 'c'
+3 'd'
+*/
+```
+
 ## Date 对象
 
 | 描述                          | 代码                                                         |
@@ -2377,6 +2389,22 @@ console.log(max); //9
 
 # 对象
 
+## 小技巧
+
+> 对象键名可通过数组来表示
+
+```js
+const a = '姓名'
+console.log({
+  [a]: '冷弋白'
+});
+/*
+{
+	姓名: '冷弋白'
+}
+*/
+```
+
 ## 对象转换
 
 > `Object.entries()`：对象转二维数组数组
@@ -2474,7 +2502,7 @@ console.log(deep);
 
 **Object.assign()**
 
-> 如果第一个对象内有的属性与第二对象内的属性有重复，c第二对象的属性会覆盖掉第一对象的属性
+> 如果第一个对象内有的属性与第二对象内的属性有重复，第二对象的属性会覆盖掉第一对象的属性
 
 ```js
 const target = { a: 1, b: 1 };
@@ -3728,7 +3756,7 @@ export default {
 > 但公共组件可以通过循环注册全局使用
 
 ```js
-export { default as C } from "./b.js";
+export { default as C } fromObject.is "./b.js";
 
 //以下为例子
 export { default as Navbar } from "./Navbar";
