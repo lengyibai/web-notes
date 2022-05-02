@@ -541,7 +541,7 @@ div {
 
 # CSS 额外笔记
 
-## 文本相关整合
+# 文本相关整合
 
 | 属性名                         | 说明                                                        |
 | ------------------------------ | ----------------------------------------------------------- |
@@ -2273,8 +2273,8 @@ document.addEventListener("selectstart", function (e) {
 
 ```js
 //获取鼠标在盒子内的坐标
-X = e.pageX - this.offsetLeft;
-Y = e.pageY - this.offsetTop;
+let X = e.pageX - e.target.getBoundingClientRect().x;
+let Y = e.pageY - e.target.getBoundingClientRect().y;
 ```
 
 ### scroll 系列
