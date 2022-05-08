@@ -2202,15 +2202,15 @@ document.addEventListener("selectstart", function (e) {
 
 ### location 对象
 
-| 用法                     | 说明                                                                                       |
-| ------------------------ | ------------------------------------------------------------------------------------------ |
-| location.href ＝"链接"   | 跳转页面，支持后退，支持静默下载                                                           |
-| location.replace("链接") | 跳转页面，无法后退                                                                         |
+| 用法                     | 说明                                                         |
+| ------------------------ | ------------------------------------------------------------ |
+| location.href ＝"链接"   | 跳转页面，支持后退，支持静默下载<br />可直接获取地址         |
+| location.replace("链接") | 跳转页面，无法后退                                           |
 | location.reload()        | 重新加载页面，在括号内加 true 强制刷新，表示重新从服务器获取资源数据，而不是从本地缓存获取 |
-| location.search          | 返回参数(重点记住)                                                                         |
-| location.hash            | 返回片段，#后面内容，常见于链接、锚点，并且可以实现修改 hash 网页不重新请求资源            |
-| open("链接")             | 跳转到新窗口打开链接                                                                       |
-| close()                  | 关闭当前标签                                                                               |
+| location.search          | 返回参数(重点记住)                                           |
+| location.hash            | 返回片段，#后面内容，常见于链接、锚点，并且可以实现修改 hash 网页不重新请求资源 |
+| open("链接")             | 跳转到新窗口打开链接，前后端不分离项目一般为`open('http://' + location.host + '/wayPerson` |
+| close()                  | 关闭当前标签                                                 |
 
 ### history 对象
 
@@ -2293,8 +2293,8 @@ let Y = e.pageY - e.target.getBoundingClientRect().y;
 
 ```js
 (function fn() {
-  if (that.$refs.scroll.scrollTop <= 0) return;
-  el.scrollTop -= el.scrollTop / 10; //实现缓动动画
+  if (window.scrollTop <= 0) return;
+  window.scrollTop -= window.scrollTop / 10; //实现缓动动画
   requestAnimationFrame(fn);
 })();
 ```

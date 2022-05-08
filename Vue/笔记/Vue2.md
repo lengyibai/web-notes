@@ -1425,7 +1425,13 @@ this.$router.push({ path: "register", query: { plan: "private" } });
 >
 > `router.beforeEach((from, to, next) => {})`：进入点击的下一个路由前执行，可用于验证
 >
-> `router.afterEach(to, from) => {}`：导航页面跳转成功就会执行此函数
+> `router.afterEach(to, from) => {}`：导航页面跳转成功就会执行此函数，例如跳转成功返回顶部
+
+```
+router.afterEach(() => {
+  window.scrollTo({ behavior: 'smooth', top: 20 })
+})
+```
 
 **参数 to & from**
 
