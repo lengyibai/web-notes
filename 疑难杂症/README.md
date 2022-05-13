@@ -34,3 +34,42 @@ module.exports = defineConfig({
 });
 ```
 
+## GitHub
+
+### 打开网站快，push却很慢
+
+> 打开`.gitconfig`
+>
+> `http、https`配置成`clash`代理地址
+
+<!--.gitconfig-->
+
+```
+[user]
+	name = lengyibai
+	email = 1329670984@qq.com
+[core]
+	autocrlf = false
+[http]
+	proxy = http://127.0.0.1:7890
+	postBuffer = 524288000
+[https]
+	proxy = http://127.0.0.1:7890
+	postBuffer = 524288000
+[sendpack]
+	sideband = false
+```
+
+> `git push`停留在`writing objects`的问题原因：有上传比较大的文件，以上文件已解决
+
+```
+解决方法：git config --global http.postBuffer 524288000
+原理：因为http.postBuffer默认上限为1M,上面的命令是把git的配置里http.postBuffer的变量改大为500M2 , 文件大,上传慢
+```
+
+> `git push`停留在`total`，以上文件已解决
+
+```
+git config --global sendpack.sideband false
+```
+

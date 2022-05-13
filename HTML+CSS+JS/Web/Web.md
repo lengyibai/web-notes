@@ -562,7 +562,7 @@ div {
 | 属性名                          | 说明                                               |
 | ------------------------------- | -------------------------------------------------- |
 | object-fit:cover                | img 标签有固定宽高，使用此属性能使图片剪裁居中     |
-| user-drag:none                  | 阻止用户拖拽图片，Vue阻止拖拽`@dragstart.preven`   |
+| @dragstart.preven               | Vue阻止拖拽                                        |
 | tap-highlight-color:transparent | 解决移动端点击出现蓝色背景                         |
 | pointer-events:none             | 鼠标穿透，auto 还原                                |
 | flex-shrink: 0;                 | 解决开启 flex 后，子盒子正常宽度无法撑开盒子的问题 |
@@ -3523,6 +3523,8 @@ console.log(lyb.a); //undefined
 
 #### RegExp 对象
 
+> 只适用于`test()`，其他都使用简写
+
 ```js
 var patt = new RegExp(pattern, "g");
 //等同
@@ -3535,7 +3537,8 @@ var patt = /pattern/g;
 
 ```js
 let str = "abcABC";
-console.log(/a/g.test(str)); //true
+const reg = new RegExp(/a/, "g");
+console.log(reg.test(str)); //true
 console.log(/d/g.test(str)); //false
 ```
 
@@ -3553,13 +3556,18 @@ console.log(str.search(/c/)); //2
 console.log(str.search(/d/)); //-1
 ```
 
-#### ~~match()~~
+#### match()
 
-> ~~返回多个匹配到的值，以数组形式存储~~
+> 返回多个匹配到的值，以数组形式存储
 >
-> ~~可以获取匹配到的数量，查找不到返回 null~~
+> 可以获取匹配到的数量，查找不到返回 null
 >
-> ~~案例参考[修饰符~~](#修饰符)
+> 案例参考[修饰符](#修饰符)
+
+```js
+const str = '测试aaa数据bbb'
+console.log(str.match(/[\u4e00-\u9fa5]+/g)); //['测试', '数据']
+```
 
 #### replace()
 
