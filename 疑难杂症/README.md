@@ -34,9 +34,9 @@ module.exports = defineConfig({
 });
 ```
 
-## GitHub
+# Git
 
-### 打开网站快，push却很慢
+## 打开网站快，push却很慢
 
 > 打开`.gitconfig`
 >
@@ -60,7 +60,7 @@ module.exports = defineConfig({
 	sideband = false
 ```
 
-> `git push`停留在`writing objects`的问题原因：有上传比较大的文件，以上文件已解决
+> `git push`停留在`writing objects`的问题原因：删除
 
 ```
 解决方法：git config --global http.postBuffer 524288000
@@ -73,3 +73,6 @@ module.exports = defineConfig({
 git config --global sendpack.sideband false
 ```
 
+## 本地与远程文件夹的大小写不一致
+
+> 将大小写不一致的文件夹移出来，再提交推送，再移进去，再提交推送

@@ -1137,25 +1137,24 @@ Vue.prototype.$lyb = lyb;
 
 ## 过渡/动画
 
-<!--过渡效果-->
+### 过渡效果
 
 ```css
 /* 进入前状态 */
 .fade-enter,
 .fade-leave-active {
   opacity: 0;
-  transform: translateY(100%)
 }
 
 /* 进入和离开动画属性 */
 .fade-leave-active,
 .fade-enter-active {
-  transition: all 1s;
+  transition: all 0.5s;
 }
 
 /* 解决添加元素占位时无动画，替代 width: 0 与 overflow: hidden */
 .fade-move {
-  transition: all 1s;
+  transition: all 0.5s;
 }
 
 /* 解决删除元素时，其他元素补位无动画 */
@@ -1164,7 +1163,9 @@ Vue.prototype.$lyb = lyb;
 }
 ```
 
-<!--动画效果-->
+### 动画效果
+
+<!--全面屏手机左右切换任务效果-->
 
 ```css
 .bounce-enter-active {
@@ -1203,6 +1204,54 @@ Vue.prototype.$lyb = lyb;
   }
 }
 ```
+
+<!--电视开关屏动画-->
+
+```css
+.fade-enter-active {
+  animation: fade-in 0.85s;
+}
+
+.fade-leave-active {
+  animation: fade-out 0.3s;
+}
+
+@keyframes fade-in {
+  0% {
+    width: 0;
+    height: 0;
+  }
+
+  50% {
+    width: 1px;
+    height: 90%;
+  }
+
+  100% {
+    width: 90%;
+    height: 90%;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    width: 90%;
+    height: 90%;
+  }
+
+  50% {
+    width: 90%;
+    height: 1px;
+  }
+
+  100% {
+    width: 0;
+    height: 0;
+  }
+}
+```
+
+
 
 ### 单组件过渡
 
