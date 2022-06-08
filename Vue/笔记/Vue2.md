@@ -237,6 +237,42 @@ fn(state) {
 <!-- 如果把computed改成methods，‘触发计算’就会触发10次 -->
 ```
 
+##### 修改计算属性
+
+> 修改计算属性会报有关`setter`，主要是没有设置`set`函数
+
+```js
+export default {
+  data() {
+    return {
+      num: 10,
+    };
+  },
+  computed: {
+    count: {
+      // getter
+      get() {
+        return this.num * 10;
+      },
+      // setter
+      set(newValue) {
+        console.log(newValue); //当计算属性 count 被修改，会调用 setter，参数为修改的值
+        this.num = newValue; //间接修改count
+      },
+    },
+  },
+  mounted() {
+    setTimeout(() => {
+      console.log(this.count); //100
+      this.count = 9;
+      console.log(this.count); //100 修改 count 并不会修改成功
+    }, 3000);
+  },
+};
+```
+
+
+
 ### 侦听器
 
 #### watch
@@ -364,14 +400,12 @@ filters: {
 >
 > 批量添加：
 >
-> `:class="['类名', '类名']"` || `:class="数组名"`
->
-> 可以存入变量内 `a:['类名',{类名:flag}]`
->
 > 如果有非法字符如`-`，可以使用引号引起来
+>
+> 
 
 ```html
-<div :style="a">你好</div>
+<div :style="a" :class="['c', flag || 'd', { e: true }]">你好</div>
 <script>
   data: {
       a: [{
@@ -388,6 +422,14 @@ filters: {
       }
   }
 </script>
+<style>
+.c {
+}
+.d {
+}
+.d {
+}
+</style>
 ```
 
 ### v-for
@@ -1059,6 +1101,10 @@ export default {
 > 在 js 文件创建一个 Vue 实例
 >
 > 将 js 内的组件引入到组件当中，会把 js 文件内的实例混入到当前组件中，实现组件功能复用
+>
+> 当组件选项与混入选项冲突时以组件优先
+>
+> 当组件和mixin同时定义生命周期选项,两个都会触发,而且mixin会先触发
 >
 > 例如回到顶部按钮
 

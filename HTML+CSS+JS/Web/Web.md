@@ -355,8 +355,6 @@ document.styleSheets[0].insertRule(
 document.querySelector('.lyb').style.animation = 'rotate 1s linear infinite'; //可直接使用
 ```
 
-
-
 # CSS3
 
 ## 粘性定位
@@ -603,18 +601,8 @@ div {
 | -webkit-text-stroke: 宽度 颜色 | 文字描边                                                    |
 | user-select: none              | 禁止选中文字                                                |
 | touch-action: none             | 禁止移动端滑动屏幕及放大缩小一切操作                        |
+| scroll-snap-type: y mandatory; | 滚动贴合，需要设置宽高以及`overflow: auto`                  |
 | line-height: 1                 | 文字自带行高影响布局，设为 1 可清除默认行高，2 则相距一个字 |
-
-## 其他整合
-
-| 属性名                           | 说明                                               |
-| -------------------------------- | -------------------------------------------------- |
-| object-fit: cover                | img 标签有固定宽高，使用此属性能使图片剪裁居中     |
-| @dragstart.preven                | Vue阻止拖拽                                        |
-| tap-highlight-color: transparent | 解决移动端点击出现蓝色背景                         |
-| pointer-events: none             | 鼠标穿透，auto 还原                                |
-| flex-shrink: 0;                  | 解决开启 flex 后，子盒子正常宽度无法撑开盒子的问题 |
-| resize: both                     | 使用此属性需要加overflow: hidden                   |
 
 ## 溢出文字省略号显示
 
@@ -674,6 +662,19 @@ div {
   <div id="lyb"></div>
 </body>
 ```
+
+# 其他整合
+
+| 属性名                           | 说明                                                         |
+| -------------------------------- | ------------------------------------------------------------ |
+| @dragstart.preven                | Vue阻止拖拽                                                  |
+| tap-highlight-color: transparent | 解决移动端点击出现蓝色背景                                   |
+| pointer-events: none             | 鼠标穿透，auto 还原                                          |
+| flex-shrink: 0;                  | 解决开启 flex 后，子盒子正常宽度无法撑开盒子的问题           |
+| resize: both;                    | 使用此属性需要加overflow: hidden                             |
+| scroll-behavior: smooth;         | 平滑滚动                                                     |
+| overscroll-behavior: contain;    | 阻止在子盒子内滚动到底部后继续滚动会带动父盒子滚动           |
+| overflow-anchor:auto;            | 解决当滚动到一定位置，上面的图片加载完成了，会直接把当前位置的内容给推下去 |
 
 # 布局
 
@@ -1426,7 +1427,7 @@ function TimeOut(time) {
 }
 async function test() {
   let arr = [TimeOut(1000), TimeOut(2000), TimeOut(3000)];
-  for await (let item of arr) {
+  for await (let item of arr) {	
     console.log(item);
   }
 }
@@ -3308,12 +3309,54 @@ new Promise((res, rej) => {
   });
 ```
 
-### 封装定时器
+### Promise.all 并发
+
+> 同时执行，以数组形式返回结果
+>
+> 缺点：一个出现异常，所有任务都会挂掉
+
+```JS
+const A = () => new Promise(r => setTimeout(()=>r('A'), 1000));
+const B = () => new Promise(r => setTimeout(()=>r('B'), 1000));
+const C = () => new Promise((r, e) => setTimeout(()=>e('C'), 1000));
+
+Promise.all([A(), B(), C()]).then(res => console.log(res)).catch(err => console.log('错误',err)); //错误 C
+```
+
+#### Promise.allSettled
+
+> 即使全部异常，也会正常返回对应异常状态
+
+```js
+Promise.allSettled([A(), B(), C()]).then(res => console.log(res))
+
+/*
+[
+  { status: 'fulfilled', value: 'A' },
+  { status: 'fulfilled', value: 'B' },
+  { status: 'rejected', reason: 'C' }
+]
+*/
+```
+
+#### Promise.any
+
+> 只要有一个请求成功 就会返回第一个请求成功的
+>
+> 所有三个全部请求失败，才会接收错误
+>
+> 处于试验性，可能会出现 `Promise.any is not a function`
+
+```js
+Promise.any([A(), B(), C()]).then(res => console.log(res)).catch(err => console.log('错误',err));
+```
+
+## async
 
 > 封装一个定时器
 
 ```js
-function print(delay, fn) {
+function print(fn, delay) {
   return new Promise((resolve) => {
     setTimeout(() => {
       fn();
@@ -3328,104 +3371,21 @@ function print(delay, fn) {
 ```js
 print(1000, () => console.log(111))
   .then(() => {
-    return print(1000, () => console.log(222));
+    return print(() => console.log(222), 1000);
   })
   .then(() => {
-    return print(1000, () => console.log(333));
+    return print(() => console.log(333), 1000);
   });
 ```
-
-### Promise.all 并发
-
-> 同时执行，以数组形式返回结果
->
-> 缺点：一个出现异常，所有任务都会挂掉
-
-```JS
-const A = () => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve("A");
-    }, 1000);
-  });
-};
-const B = () => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve("B");
-    }, 1000);
-  });
-};
-const C = () => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      reject("C");
-    }, 2000);
-  });
-};
-
-Promise.all([A(), B(), C()])
-  .then((res) => {
-    console.log(res);
-  })
-  .catch((error) => {
-    console.log("错误", error);
-  });
-```
-
-#### Promise.allSettled
-
-> 即使全部异常，也会正常返回对应异常状态
-
-```js
-Promise.allSettled([A(), B(), C()]).then((res) => {
-  console.log(res);
-});
-
-/*
-[
-    {
-        "status": "fulfilled",
-        "value": "A"
-    },
-    {
-        "status": "fulfilled",
-        "value": "B"
-    },
-    {
-        "status": "rejected",
-        "reason": "C"
-    }
-]
-*/
-```
-
-#### Promise.any
-
-> 只要有一个请求成功 就会返回第一个请求成功的
->
-> 所有三个全部请求失败，才会接收错误
-
-```js
-Promise.any([promise1(), promise2(), promise3()])
-  .then((first) => {
-    console.log(first); //A
-  })
-  .catch((error) => {
-    console.log(error); //直接报全错，并不会逐个存入数组
-  });
-```
-
-## async
 
 > 使用`async`执行，good
 
 ```js
-async function test1() {
-  await print(1000, () => console.log(111));
-  await print(1000, () => console.log(222));
-  await print(1000, () => console.log(333));
-}
+(async function test() {
+  await print(() => console.log(111),1000);
+  await print(() => console.log(222),1000);
+  await print( () => console.log(333),1000);
+})()
 ```
 
 ## Class 类
