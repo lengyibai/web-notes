@@ -132,3 +132,76 @@ let a = readonly(data);
 a.lyb = "lyb"; //禁止修改，控制台警告
 ```
 
+### shallowReactive
+
+> 只能修改绑定的第一层的值
+>
+> 注：在`DOM`挂载之前依然可以修改深层次的值，挂载之后就不可修改
+
+```js
+import { shallowReactive } from "vue";
+let data = shallowReactive({
+  lyb: "冷弋白",
+  obj: {
+    age: 21,
+  },
+});
+data.obj.age = 20; //dom挂在之前可修改
+setTimeout(() => {
+  data.lyb = "lengyibai"; //可修改
+  data.obj.age = 18; //不可修改
+});
+```
+
+## to系列
+
+### toRef
+
+> 将一个对象的属性抽出来并转成`ref`对象进行绑定，修改绑定值，原对象和绑定的`ref`也会跟着改变
+>
+> 让`toRef`绑定的属性值也具有响应式的前提是原对象也具有响应式
+
+```js
+import { toRef, reactive } from "vue";
+const obj = reactive({
+  lyb: "冷弋白",
+});
+const name = toRef(obj, "lyb");
+setTimeout(() => {
+  name.value = "lyb"; //不仅name会被修改并更新视图，reactiveb绑定的对象也会被修改，视图也会更新
+});
+```
+
+### toRefs
+
+> 接收一个对象，功能与`ref`一样
+>
+> 当`reactive`对象的属性比较多的时候就需要解构简化代码，但是解构会失去响应式。使用toRefs解构`reactive`对象，解构的属性仍具有响应式。
+
+```js
+import { toRefs, reactive } from "vue";
+const obj = reactive({
+  a: "张三",
+  b: "李四",
+});
+const { a: A, b: B } = toRefs(obj);
+setTimeout(() => {
+  A.value = "zhangsan";
+  B.value = "lisi";
+});
+```
+
+### toRaw
+
+> 通过`toRaw`方法拿到响应式数据的原始数据，对原始数据进行修改不会更新视图
+
+```js
+import { toRaw, reactive } from "vue";
+const arr = reactive(["a", "b", "c"]);
+setTimeout(() => {
+  const lyb = toRaw(arr).splice(2, 1);
+  console.log(lyb); //['c']
+  console.log(arr); //toRaw(arr)只是引用地址，实际上 splice 也会改变响应式数据，此时为 ['a', 'b']，但不会更新视图
+});
+```
+
