@@ -1687,9 +1687,21 @@ console.log(Array.isArray(arr)); //第二种方法
 
 ### reduce 高级语法合集
 
-> `reduce`的第一参数是回调函数返回的值，第二参数的数组元素
+> `reduce`的第一参数是回调函数上一次返回的值，第二参数的数组元素
 >
 > 回调函数后面紧跟的是第一参数的初始值
+
+#### 基础用法
+
+> 可用于购物车
+
+```js
+const data = [100, 100, 100, 100, 100];
+const sub = data.reduce((prev, next) => {
+  return prev + next; //累加
+}, 0);
+console.log(sub); //500
+```
 
 #### 元素出现次数统计
 

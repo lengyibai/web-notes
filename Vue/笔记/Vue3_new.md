@@ -176,7 +176,7 @@ setTimeout(() => {
 
 > 接收一个对象，功能与`ref`一样
 >
-> 当`reactive`对象的属性比较多的时候就需要解构简化代码，但是解构会失去响应式。使用toRefs解构`reactive`对象，解构的属性仍具有响应式。
+> 当`reactive`对象的属性比较多的时候就需要解构简化代码，但是解构会失去响应式。使用`toRefs`解构`reactive`对象，解构的属性仍具有响应式。
 
 ```js
 import { toRefs, reactive } from "vue";
@@ -203,5 +203,253 @@ setTimeout(() => {
   console.log(lyb); //['c']
   console.log(arr); //toRaw(arr)只是引用地址，实际上 splice 也会改变响应式数据，此时为 ['a', 'b']，但不会更新视图
 });
+```
+
+## 方法系列
+
+### computed
+
+> 基础写法，不可修改计算属性
+
+```js
+import { ref, computed } from "vue";
+let num = ref(0);
+const count = computed(() => {
+  return num.value * 10;
+});
+setInterval(() => {
+  num.value += 1;
+}, 1000);
+```
+
+> `setter`写法，可修改计算属性
+
+```js
+import { ref, computed } from "vue";
+
+let num = ref(0);
+
+const count = computed({
+  get() {
+    return num.value * 2;
+  },
+  set(val) {
+    num.value = val; //通过修改计算属性，内部修改变量
+  },
+});
+
+setInterval(() => {
+  num.value += 1;
+}, 1000);
+
+setTimeout(() => {
+  count.value = 50;
+}, 3000);
+```
+
+### watch
+
+#### 监听单个
+
+```js
+import { watch, ref } from "vue";
+
+let a = ref(0);
+
+watch(a, (newVal, oldVal) => {
+  console.log("newVal：", newVal, "\n", "oldVal：", oldVal);
+});
+
+setTimeout(() => {
+  a.value += 1;
+}, 1000);
+```
+
+#### 监听多个
+
+> 使用数组形式监听多值，以数组形式返回
+
+```js
+import { watch, ref } from "vue";
+
+let a = ref(0);
+let b = ref(0);
+
+watch([a, b], (newVal, oldVal) => {
+  console.log("newVal：", newVal, "\n", "oldVal：", oldVal);
+});
+
+setTimeout(() => {
+  a.value += 1;
+}, 1000);
+```
+
+#### 监听对象
+
+> 只有使用`reactive`才会深度监听，不可使用`ref`
+>
+> PS：如果非要使用`ref`，则需要开启`deep`才能深度监听
+>
+> 注：目前无法获取旧值，旧值即新值
+
+```js
+import { reactive, watch } from "vue";
+
+let p = reactive({
+  user: {
+    lyb: {
+      name: "冷弋白",
+    },
+  },
+});
+
+watch(p, (newVal, oldVal) => {
+  console.log("newVal：", newVal.user.lyb.name)
+}, {
+  immediate: true, //立即执行
+});
+
+setTimeout(() => {
+  p.user.lyb.name = "lyb";
+}, 1000);
+```
+
+#### 监听对象属性
+
+> 使用返回值的方式监听指定对象属性，且能获取到旧值
+
+```js
+import { reactive, watch } from "vue";
+
+let user = reactive({
+  lyb: {
+    name: "冷弋白",
+    age: "21",
+  },
+});
+
+watch(
+  () => user.lyb.name,
+  (newVal) => {
+    console.log("监听对象：", newVal);
+  }
+);
+
+setTimeout(() => {
+  user.lyb.age = "22"; //此时修改age并不会触发监听
+  // user.lyb.name = "lyb";
+}, 1000);
+```
+
+#### 监听多个对象属性
+
+> 将多个对象属性存放在数组返回值内进行监听，且能获取到旧值
+
+```js
+import { reactive, watch } from "vue";
+
+let user = reactive({
+  lyb: {
+    name: "冷弋白",
+    age: 21,
+    birth: 2000,
+  },
+});
+
+watch(
+  () => [user.lyb.age, user.lyb.birth],
+  (newVal) => {
+    console.log("newVal：", newVal);
+  }
+);
+
+setTimeout(() => {
+  user.lyb.age = 20;
+  setTimeout(() => {
+    user.lyb.birth = 2001;
+  }, 1000);
+}, 1000);
+```
+
+### watchEffect
+
+> 立即执行一次内部方法，
+>
+> 内部使用的对象属性或方法被修改时调用，针对性修改和使用才会触发
+>
+> `before`：无论处于哪个位置，始终第一执行此回调函数
+
+```js
+import { reactive, watchEffect } from "vue";
+
+let user = reactive({
+  lyb: {
+    name: "冷弋白",
+  },
+});
+
+watchEffect((before) => {
+  console.log(user.lyb.name);
+  before(() => {
+    console.log(666);
+  });
+});
+
+//以下写发不会触发
+watchEffect(() => {
+  console.log(user.lyb);
+});
+
+setTimeout(() => {
+  user.lyb.name = "lyb";
+}, 1000);
+
+```
+
+#### 停止监听
+
+> 调用监听函数即可取消
+
+```js
+import { reactive, watchEffect } from "vue";
+let user = reactive({
+  lyb: {
+    name: "冷弋白",
+  },
+});
+
+const stop = watchEffect((before) => {
+  before(() => {
+    console.warn("before");
+  });
+  console.log(user.lyb.name);
+});
+
+setTimeout(() => {
+  user.lyb.name = "lyb";
+  setTimeout(() => {
+    console.warn("关闭监听");
+    stop(); //关闭监听，并调用一次before，关闭后监听器下一行内容将不会修改
+    setTimeout(() => {
+      user.lyb.name = "lengyibai";
+    }, 1000);
+  }, 1000);
+}, 1000);
+```
+
+#### 获取DOM元素
+
+> 组件更新后执行，`flush: "post"`
+
+```js
+import { watchEffect } from "vue";
+
+watchEffect(
+  () => {
+    const app = document.querySelector(".app");
+    console.log(app);
+  },
+  { flush: "post" }
+);
 ```
 
