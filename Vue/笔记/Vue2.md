@@ -14,7 +14,7 @@
 | npm i xxx -S                                                 | 安装生产环境依赖                     |
 | npm i xxx -D                                                 | 安装开发环境依赖                     |
 | npm i xxx@版本号                                             | 安装指定版本                         |
-| npm i xxx@next                                               | 安装最新版本                         |
+| npm i xxx@latest<br />npm i xxx@next                         | 安装小版本更新<br />安装大版本更新   |
 | npm un -S xxx                                                | 删除 xxx 模块                        |
 | npm un -S -g xxx                                             | 删除 xxx 全局模块                    |
 | npm install -g cnpm --registry=https://registry.npm.taobao.org | 安装淘宝镜像                         |
@@ -152,6 +152,44 @@
 > `deactivated(){}`：从当前页面跳转到其他页面时调用
 >
 > 父beforeCreate -> 父created -> 父beforeMount -> 子beforeCreate -> 子created -> 子beforeMount -> 子mounted -> 父mounted
+
+## template标签
+
+> 写在此标签内的元素会移除`template`标签直接渲染
+>
+> 常配合`v-if`使用，切勿与`v-show`使用
+
+```vue
+<div class="App">
+  <template>
+    <div class="lyb"></div>
+  </template>
+</div>
+```
+
+<!--将会被渲染为以下-->
+
+```vue
+<div class="App">
+  <template>
+    <div class="lyb"></div>
+  </template>
+</div>
+```
+
+> 组件上使用`class`，`style`也有同样效果
+
+<!--组件lyb-->
+
+```html
+<div class="lyb"></div>
+```
+
+```vue
+<lyb class="box"></lyb>
+<!--将会被渲染成以下-->
+<div class="lyb box"></div>
+```
 
 ## 优化
 
@@ -394,43 +432,38 @@ filters: {
 
 #### :class
 
-> 判断条件添加：
->
-> `:class='{类名:flag}'`或`:class='{类名:flag, 类名:flag}'`
->
-> 批量添加：
->
-> 如果有非法字符如`-`，可以使用引号引起来
->
-> 
+> 基本使用
 
 ```html
-<div :style="a" :class="['c', flag || 'd', { e: true }]">你好</div>
-<script>
-  data: {
-      a: [{
-          width: '100px',
-          height: '100px',
-          backgroundColor: '#000'
-      }, {
-          color: 'red'
-      }],
-      b:{
-          width: '100px',
-          height: '100px',
-          backgroundColor: '#000'
-      }
-  }
-</script>
-<style>
-.c {
-}
-.d {
-}
-.d {
-}
-</style>
+<div :class="{ active: true }">你好</div>
+<div :class="[isActive ? activeClass : '']">你好</div>
+<div :class="[{ active: isActive }, { hover: isActive }]">你好</div>
 ```
+
+#### :style
+
+> 如果样式是灵活的，建议使用计算属性
+
+```vue
+<Lyb :style="active" />
+```
+
+```js
+computed: {
+  active() {
+    const _this = this;
+    return {
+      fontSize: _this.flag ? "100px" : "50px",
+    };
+    // 或使用模板字符串
+    return `
+    font-size:${_this.flag ? "100px" : "50px"}
+    `;
+  },
+},
+```
+
+
 
 ### v-for
 
@@ -441,9 +474,9 @@ filters: {
 >
 > 注：不要使用对象或数组之类的非基本类型值作为 `v-for` 的 `key`。请用字符串或数值类型的值。
 >
-> PS：推荐采用解构`item`进行赋值，不推荐`index`作为`key`改变数组会导致`index`一同改变，损耗性能
+> PS：不推荐`index`作为`key`，使用`index`做`key`，破坏顺序操作的时候， 因为每一个节点都找不到对应的`key`，导致部分节点不能复用，所有的新`vnode`都需要重新创建，仅用于渲染展示用时，可以使用`key`
 
-> 循环对象
+#### 遍历对象
 
 ```html
 <div v-for="(value, name, index) in object">
@@ -462,7 +495,9 @@ filters: {
 </script>
 ```
 
-#### 关于循环动态设置图片路径
+#### 循环设置图片路径
+
+> 使用`require`引入图片
 
 ```html
 <div v-for="item in imgs" :key="item.id">
@@ -485,6 +520,10 @@ filters: {
   };
 </script>
 ```
+
+#### 替代与v-if一起使用
+
+> 可通过计算属性过滤掉不想要的元素
 
 ### v-html
 
