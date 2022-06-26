@@ -265,6 +265,18 @@ export default {
 
 > `babel es6.js --out-file es5.js --presets es2015 -w`
 
+# 移动端调试
+
+> `cnpm i vconsole`
+
+```js
+import VConsole from 'vconsole';
+const vConsole = new VConsole();
+Vue.use(vConsole);
+```
+
+
+
 # 提交规范
 
 > 提交自动格式化

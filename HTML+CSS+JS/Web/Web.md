@@ -412,17 +412,19 @@ document.querySelector('.lyb').style.animation = 'rotate 1s linear infinite'; //
 
 ## 滤镜
 
-| 属性值          | 说明                                         |
-| --------------- | -------------------------------------------- |
-| blur(px)        | 模糊度，backdrop-filter:blur(px)可实现毛玻璃 |
-| brightness(%)   | 亮度                                         |
-| contrast(%)     | 对比度                                       |
-| drop-shadow     | 与普通阴影不同的是它不会忽略透明             |
-| grayscale(%)    | 灰度图像                                     |
-| hue-rotate(deg) | 色相旋转选择                                 |
-| invert(%)       | 颜色反转                                     |
-| saturate(%)     | 饱和度                                       |
-| sepia(%)        | 褐色                                         |
+> `backdrop-filter`只对下一层的元素生效，如`blur`毛玻璃
+
+| 属性值          | 说明                             |
+| --------------- | -------------------------------- |
+| blur(px)        | 模糊度                           |
+| brightness(%)   | 亮度                             |
+| contrast(%)     | 对比度                           |
+| drop-shadow     | 与普通阴影不同的是它不会忽略透明 |
+| grayscale(%)    | 灰度图像                         |
+| hue-rotate(deg) | 色相旋转选择                     |
+| invert(%)       | 颜色反转                         |
+| saturate(%)     | 饱和度                           |
+| sepia(%)        | 褐色                             |
 
 ## 混合模式
 
@@ -601,7 +603,6 @@ div {
 | -webkit-text-stroke: 宽度 颜色 | 文字描边                                                    |
 | user-select: none              | 禁止选中文字                                                |
 | touch-action: none             | 禁止移动端滑动屏幕及放大缩小一切操作                        |
-| scroll-snap-type: y mandatory; | 滚动贴合，需要设置宽高以及`overflow: auto`                  |
 | line-height: 1                 | 文字自带行高影响布局，设为 1 可清除默认行高，2 则相距一个字 |
 
 ## 溢出文字省略号显示
@@ -695,16 +696,17 @@ input {
 
 # 其他整合
 
-| 属性名                           | 说明                                                         |
-| -------------------------------- | ------------------------------------------------------------ |
-| @dragstart.preven                | Vue阻止拖拽                                                  |
-| tap-highlight-color: transparent | 解决移动端点击出现蓝色背景                                   |
-| pointer-events: none             | 鼠标穿透，auto 还原                                          |
-| flex-shrink: 0;                  | 解决开启 flex 后，子盒子正常宽度无法撑开盒子的问题           |
-| resize: both;                    | 使用此属性需要加overflow: hidden                             |
-| scroll-behavior: smooth;         | 平滑滚动                                                     |
-| overscroll-behavior: contain;    | 阻止在子盒子内滚动到底部后继续滚动会带动父盒子滚动           |
-| overflow-anchor:auto;            | 解决当滚动到一定位置，上面的图片加载完成了，会直接把当前位置的内容给推下去 |
+| 属性名                                      | 说明                                                         |
+| ------------------------------------------- | ------------------------------------------------------------ |
+| @dragstart.prevent                          | Vue阻止拖拽                                                  |
+| tap-highlight-color: transparent            | 解决移动端点击出现蓝色背景                                   |
+| pointer-events: none                        | 鼠标穿透，auto 还原                                          |
+| flex-shrink: 0;                             | 解决开启 flex 后，子盒子正常宽度无法撑开盒子的问题           |
+| resize: both;                               | 使用此属性需要加overflow: hidden                             |
+| scroll-behavior: smooth;                    | 平滑滚动                                                     |
+| overscroll-behavior: contain;               | 阻止在子盒子内滚动到底部后继续滚动会带动父盒子滚动           |
+| overflow-anchor:auto;                       | 解决当滚动到一定位置，上面的图片加载完成了，会直接把当前位置的内容给推下去 |
+| scroll-snap-type: y proximity \| mandatory; | 滚动贴合，需要设置宽高以及`overflow: auto`，给子元素设置：`     style="scroll-snap-align: start"` |
 
 # 布局
 
@@ -1048,6 +1050,12 @@ throw new Error("错误"); //会中断后面的操作
 console.error("错误"); //仅仅打印错误
 ```
 
+## 严格判断两个值是否相等
+
+```js
+Object.is(value1,value2)
+```
+
 ## Number 相关
 
 ### Math 方法
@@ -1079,7 +1087,38 @@ if (x === "abc" || x === "def" || x === "ghi" || x === "jkl") {
 }
 
 //简写方法
-if (["abc", "def", "ghi", "jkl"].includ
+if (["abc", "def", "ghi", "jkl"].includes(x)
+```
+
+### 一次渲染上万数据
+
+> 通过本地节流渲染或分页渲染，减少白屏时间
+
+```js
+fn() {
+  const _this = this;
+  let getData = [];
+  for (let i = 0; i < 100_000; i++) {
+    getData.push("Test");
+  }
+  let page = 0; //当前页数
+  const limit = 100;
+  let total = getData.length;
+  const totalPage = Math.floor(total / limit);
+  function fn(page) {
+    if (page <= totalPage) {
+      window.requestAnimationFrame(
+        function () {
+          _this.data.push(...getData.splice(0, limit));
+          fn(page + 1);
+        }.bind(this)
+      );
+    } else if (getData.length) {
+      _this.data.push(...getData);
+    }
+  }
+  fn(page);
+},
 ```
 
 ## 字符串
@@ -2147,7 +2186,6 @@ body.addEventListener("mousemove", (e) => {
 ```js
 const lyb = document.querySelector('.lyb');
 let MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
-let el = document.querySelector('.SingleMultiple');
 let observer = new MutationObserver(records => {
   console.log('触发：', records);
 });
@@ -2399,6 +2437,7 @@ document.addEventListener("selectstart", function (e) {
 | e.screenY                  | 获取鼠标相对电脑屏幕的 Y 坐标                                |
 | el.clientHeight            | 获取元素自身不包括 padding、margin、边框，返回数值不带单位<br />`document.documentElement.clientHeight`浏览器可视区高度， |
 | el.getBoundingClientRect() | 获取元素坐标对象，通过`document.documentElement.clientHeight - el.getBoundingClientRect().top`可获取元素到可视区的距离<br />`el.getBoundingClientRect().left`则是获取元素到边缘的距离，无视父元素的相对定位 |
+|                            |                                                              |
 
 ### offset 系列
 
@@ -2543,7 +2582,86 @@ setInterval(() => {
 }, 1000);
 ```
 
+## 生成器函数
 
+> 迭代器
+
+```js
+function* a() {
+  yield 0;
+  yield 1;
+  yield 2;
+  yield 3;
+  yield 4;
+  yield 5;
+  yield 6;
+}
+
+let A = a();
+console.log(A.next().value);
+console.log(A.next().value);
+console.log(A.next().value);
+console.log(A.next().value);
+console.log(A.next().value);
+console.log(A.next().value);
+/* 
+0
+1
+2
+3
+4
+5
+6
+*/
+```
+
+<!--等同于-->
+
+```js
+function* a() {
+	const arr = [0, 1, 2, 3, 4, 5, 6]
+  for (let i = 0; i < arr.length; i++) {
+    yield arr[i];
+  }
+}
+
+let A = a();
+for (let a of A) {
+  console.log(a);
+}
+/* 
+0
+1
+2
+3
+4
+5
+6
+*/
+```
+
+<!--等同于-->
+
+```js
+function* a() {
+	const arr = [0, 1, 2, 3, 4, 5, 6]
+  yield* arr; //将迭代委托给arr
+  yield 7; //上一个迭代完成后继续执行迭代
+}
+
+for (let a of a()) {
+  console.log(a);
+}
+/* 
+0
+1
+2
+3
+4
+5
+6
+*/
+```
 
 ## 数据类型功能封装
 
@@ -2551,11 +2669,7 @@ setInterval(() => {
 
 ```js
 Object.prototype[Symbol.iterator] = function* () {
-  let res = [];
-  for (let k in this) {
-    res.push([k, this[k]]);
-  }
-  yield* res;
+  yield* Object.entries(this);
 };
 
 const lyb = {

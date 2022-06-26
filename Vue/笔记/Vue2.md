@@ -328,9 +328,8 @@ export default {
     }
   },
   watch: {
-      name(newVal,oldVal) {//新值和旧值
-          console.log('已触发');
-          console.log(newVal); //冷弋彩
+      name(n,o) {
+          console.log(n); 
       }
     
     //深度监听
@@ -343,35 +342,12 @@ export default {
     'obj.age': {
       deep: true,
       immediate: true, //立即调用
-      handler(newV, oldV) {
-        console.log(newV, oldV);
+      handler(n, o) {
+        console.log(n, o);
       },
     },
   }
 </script>
-```
-
-### 过滤器
-
-#### filters
-
-> 在使用这个变量之前修改它的内容
-
-```js
-filters: {
-    lyb(price) {
-        //保留两位小数并给小数加上人民币前缀
-    	return '￥' + price.toFixed(2);
-    }
-}
-```
-
-```html
-<!-- 在双花括号中 -->
-{{ message | lyb }}
-
-<!-- 在 `v-bind` 中 -->
-<div :id="rawId | lyb"></div>
 ```
 
 ## 标签属性
@@ -405,15 +381,44 @@ filters: {
 
 ### v-bind:
 
-> `v-bind:src='图片地址'`|| `:src='图片地址'`
->
-> _建议把图片链接写进变量，再使用变量_
->
-> v-bind:属性=表达式
->
-> 设置元素属性如 `src`,`title`,`class` 等等
->
-> 可以省略`v-bind`
+> 批量传递
+
+<!--父组件-->
+
+```vue
+<Test v-bind="obj" />
+<!-- 可使用sync，由于sync可使其被更改，则不可传递表达式 -->
+<Test v-bind.sync="obj" />
+<script>
+export default {
+  data() {
+    return {
+      obj: {
+        a: 100,
+        b: "冷弋白",
+      },
+    };
+  },
+};
+</script>
+```
+
+<!--子组件-->
+
+```js
+props: {
+  a: {
+    type: Number,
+    default: 0,
+  },
+  b: {
+    type: String,
+    default: "",
+  },
+},
+```
+
+
 
 #### .sync
 
@@ -771,11 +776,55 @@ export default {
 }
 ```
 
+<!--main.js-->
+
+```js
+import directives from "@/utils/directives.js";
+Vue.use(directives);
+```
+
 ## 组件化
 
-> 问：为什么组件内只能使用 data 函数来返回对象
->
-> 答：因为对象直接返回对象是返回的内存地址，修改对象内的值，其他地方使用的组件内的值会同步修改
+> 一次性注册所有公共组件
+
+```js
+import Vue from "vue";
+const requireComponents = require.context(
+  "@/components/common",
+  true, //是否深度读取
+  /\.vue$/, //匹配文件名
+);
+//requireComponents.keys() 获取匹配到的文件路径
+requireComponents.keys().forEach((fileName) => {
+  if (fileName.includes("childComp") || fileName.includes("demo")) return; //不需要
+  const reqCom = requireComponents(fileName).default; //获取组件实例
+  const reqComName = reqCom.name; //获取组件name
+  Vue.component(reqComName, reqCom); //注册组件
+});
+```
+
+> 手动注册
+
+```js
+import GdMap from "./gd-map/index.vue";
+const components = [GdMap];
+export default {
+  install(Vue) {
+    components.forEach((component) => {
+      Vue.component(component.name, component);
+    });
+  },
+};
+```
+
+<!--main.js-->
+
+```js
+import lybUI from "@/components/common/index.js";
+Vue.use(lybUI);
+```
+
+
 
 ### 父传子 props
 
@@ -838,10 +887,10 @@ props:{
 `父组件`
 
 ```html
-<lyb @lyb="ljk" />
+<lyb @lyb="lyb" />
 <script>
   methods:{
-      ljk(name) {
+      lyb(name) {
         console.log(name);
       },
    }
@@ -850,13 +899,13 @@ props:{
 
 ### 组件 v-model
 
-> 语法糖
+> 在组件上使用`v-model`
 
 `lyb`
 
 ```vue
 <template>
-	<input :value="value" @input="fn($event.target.value)" />
+	<input :value="value" @input="$emit('input', $event.target.value)" />
 </template>
 <script>
   export default {
@@ -865,11 +914,6 @@ props:{
         default: 0
       }
     },
-    methods:{
-      fn(v){
-        this.$emit("input", v);
-      }
-    }
   }
 </script>
 ```
@@ -880,11 +924,28 @@ props:{
 <lyb v-model="value"></lyb>
 ```
 
+> 另外，在组件上使用`@input.native`，会监听组件内所有的`input`事件
+
+<!--lyb-->
+
+```vue
+<template>
+  <input type="text" />
+  <input type="text" />
+  <input type="text" />
+  <input type="text" />
+</template>
+```
+
+`App.vue`
+
+```vue
+<Test @input.native="fn" />
+```
+
 ### 父访问子
 
-#### $children
-
-> 通过`this.$children[0].变量/函数`或`this.$refs.ref.变量/函数`获取
+> 通过`this.$refs.ref.变量/函数`获取
 
 `子组件`
 
@@ -1121,7 +1182,7 @@ export default {
 </script>
 ```
 
-#### 插槽 prop
+### 作用域插槽
 
 > 插槽内的参数会以对象形式传输
 
@@ -1208,17 +1269,6 @@ const lyb = {
 };
 Vue.prototype.$lyb = lyb;
 ```
-
-## Vue API
-
-> `this`方法
-
-| API       | 描述                      |
-| --------- | ------------------------- |
-| $children | 当前组件下的子组件        |
-| $el       | 组件的`Dom`元素           |
-| $parent   | 当前组件的父组件          |
-| $refs     | 获取所有设置了`ref`的组件 |
 
 ## 过渡/动画
 
@@ -1336,8 +1386,6 @@ Vue.prototype.$lyb = lyb;
 }
 ```
 
-
-
 ### 单组件过渡
 
 ```html
@@ -1354,6 +1402,18 @@ Vue.prototype.$lyb = lyb;
 <transition-group name="list" tag="p">
   <span v-for="item in items" :key="item"> {{ item }} </span>
 </transition-group>
+```
+
+### 路由动画
+
+> 如果使用了`keep-alive`，则需要把动画标签放在外面
+
+```vue
+<transition name="fade" mode="out-in">
+  <keep-alive>
+    <router-view></router-view>
+  </keep-alive>
+</transition>
 ```
 
 # Vue CLI
@@ -2405,8 +2465,7 @@ this.$store.commit("模块名/方法名")
 
 # 小知识
 
-| 小知识                                                                                        |
-| --------------------------------------------------------------------------------------------- |
+| 小知识                                                       |
+| ------------------------------------------------------------ |
 | `data`内无法获取`data`内的其他数据，但能获取其他地方的数据，如路由参数`this.$router.query.id` |
-| 修改了数据但视图未更新，会不会是因为没有设置`this.$set`                                       |
-|                                                                                               |
+| 修改了数据但视图未更新，会不会是因为没有设置`this.$set`scroll |

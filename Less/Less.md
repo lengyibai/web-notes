@@ -9,16 +9,12 @@
 ## 起步
 
 ```shell
-npm install less@3.0.4 less-loader@5 --save
+npm install less@3.0.4 less-loader@5 -D
 ```
 
 ## 配置全局less样式
 
-> 添加插件：`vue add style-resources-loader`
->
-> 添加运行时依赖：`npm i style-resources-loader -D`
->
-> 完成以上两个步骤后**重启服务**
+> `cnpm i vue-cli-plugin-style-resources-loader style-resources-loader --save-dev`
 
 <!--vue.config.js文件配置-->
 
