@@ -1094,32 +1094,63 @@ if (["abc", "def", "ghi", "jkl"].includes(x)
 
 > 通过本地节流渲染或分页渲染，减少白屏时间
 
-```js
-fn() {
-  const _this = this;
-  let getData = [];
-  for (let i = 0; i < 100_000; i++) {
-    getData.push("Test");
-  }
-  let page = 0; //当前页数
-  const limit = 100;
-  let total = getData.length;
-  const totalPage = Math.floor(total / limit);
-  function fn(page) {
-    if (page <= totalPage) {
-      window.requestAnimationFrame(
-        function () {
-          _this.data.push(...getData.splice(0, limit));
-          fn(page + 1);
-        }.bind(this)
-      );
-    } else if (getData.length) {
-      _this.data.push(...getData);
+```html
+<template>
+  <div class="Test">
+    <li v-for="(item, index) in data" :key="index">
+      {{ index + 1 }}
+    </li>
+  </div>
+</template>
+<script>
+export default {
+  name: "Test",
+  data() {
+    return {
+      data: [],
+      getData: [],
+      total: 0,
+      page: 0,
+      limit: 100,
+      totalPage: 0,
+    };
+  },
+  components: {},
+  mounted() {
+    for (let i = 0; i < 1_0000; i++) {
+      this.getData.push(i);
     }
-  }
-  fn(page);
-},
+    this.total = this.getData.length;
+    this.totalPage = Math.floor(this.total / this.limit);
+    this.fn();
+  },
+  methods: {
+    fn() {
+      const _this = this;
+      function fn(page) {
+        if (page <= _this.totalPage) {
+          window.requestAnimationFrame(function () {
+            _this.data.push(..._this.getData.splice(0, _this.limit));
+            fn(_this.page + 1);
+          });
+        } else if (_this.getData.length) {
+          _this.data.push(..._this.getData);
+        }
+      }
+      fn(this.page);
+    },
+  },
+};
+</script>
+<style scoped lang="less">
+.Test {
+  width: 100%;
+  height: 100%;
+}
+</style>
 ```
+
+### 
 
 ## 字符串
 
