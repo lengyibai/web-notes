@@ -785,7 +785,9 @@ Vue.use(directives);
 
 ## 组件化
 
-> 一次性注册所有公共组件
+> 可通过`component`标签加`:is`设置动态组件
+
+> 一次性注册全局组件
 
 ```js
 import Vue from "vue";
@@ -793,7 +795,7 @@ const requireComponents = require.context(
   "@/components/common",
   true, //是否深度读取
   /\.vue$/, //匹配文件名
-);
+);	
 //requireComponents.keys() 获取匹配到的文件路径
 requireComponents.keys().forEach((fileName) => {
   if (fileName.includes("childComp") || fileName.includes("demo")) return; //不需要
@@ -803,7 +805,7 @@ requireComponents.keys().forEach((fileName) => {
 });
 ```
 
-> 手动注册
+> 手动全局注册
 
 ```js
 import GdMap from "./gd-map/index.vue";
@@ -1272,6 +1274,10 @@ Vue.prototype.$lyb = lyb;
 
 ## 过渡/动画
 
+> 可通过`tag`标签修改默认元素，默认为`span`
+>
+> 支持组件切换`:is`过渡
+
 ### 过渡效果
 
 ```css
@@ -1287,7 +1293,9 @@ Vue.prototype.$lyb = lyb;
   transition: all 0.5s;
 }
 
-/* 解决添加元素占位时无动画，替代 width: 0 与 overflow: hidden */
+/* 以下两个只有在transition-group才有效 */
+
+/* 一般用于非隐藏显示元素，如for循环的增删，此时不需要使用以上的过渡 */
 .fade-move {
   transition: all 0.5s;
 }
@@ -1621,7 +1629,7 @@ this.$router.push({ path: "register", query: { plan: "private" } });
 >
 > `router.afterEach(to, from) => {}`：导航页面跳转成功就会执行此函数，例如跳转成功返回顶部
 
-```
+```js
 router.afterEach(() => {
   window.scrollTo({ behavior: 'smooth', top: 20 })
 })
@@ -2024,6 +2032,10 @@ export default {
     ...mapState({
       a: 'lyb',
     }),
+    //如果使用了modules，则需要使用以下方法
+    ...mapState({
+    a: state => state.模块名.lyb,
+  }), //100
 	},
     methods:{
       //原来
@@ -2424,16 +2436,6 @@ fn11(state, getters, rootState) {
 > `action`的`context.commit()`只能使用当前模块的`mutation`内的函数
 >
 > 使用`context.rootState||context.rootGetters`可以拿到原来`store`内的`state`和`getters`
-
-### 抽离
-
-> `mutations.js`
->
-> `getters.js`
->
-> `action.js`
->
-> `modules`由于有多个模块，需要单独创建`modules`文件夹，文件夹内就是每个模块 js 文件
 
 ### 独立模块名
 

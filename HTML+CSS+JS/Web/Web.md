@@ -304,15 +304,6 @@
 background-position: bottom 50px right 100px;
 ```
 
-### linear-gradient
-
-> 起始方向：`to left`或`to right`或`to top`或`to bottom`或度数
-> 百分号：代表着颜色`1`和颜色`2`从`0%`开始到`50%`结束平均分配空间，如果后面没有颜色了，则自动使用颜色`3`填充剩余部分，颜色`2`和颜色`3`从`50%`开始到`100%`结束，平均分配空间
-
-```css
-background-image: linear-gradient(起始方向，颜色1 0%，颜色2 50%, 颜色3 100%);
-```
-
 ## 宽高相等
 
 ```css
@@ -370,6 +361,14 @@ document.querySelector('.lyb').style.animation = 'rotate 1s linear infinite'; //
   position: sticky;
   top: 0px;
 }
+```
+
+## 文本渐变
+
+```css
+color: transparent;
+background: linear-gradient(115deg, #0093E9 0%, #80D0C7 89%);
+-webkit-background-clip: text;
 ```
 
 ## 过渡动画
@@ -1060,22 +1059,22 @@ Object.is(value1,value2)
 
 ### Math 方法
 
-| 用法                         | 说明                                                                 |
-| ---------------------------- | -------------------------------------------------------------------- |
-| MAX_VALUE                    | 获取无穷大的值                                                       |
-| Math.max('1', '3', '4', '2') | 最大值`4`                                                            |
-| Math.min(1, 3, 4, 2)         | 最小值`1`                                                            |
-| Math.abs(-10)                | 绝对值`10`                                                           |
-| Math.floor(1.9)              | 往小的取`1`，`-1.9`即`-2`                                            |
-| Math.ceil(1.1)               | 往大的取 `2`，`-1.9 `即`-1`                                          |
-| Math.round(1.5)              | 四舍五入                                                             |
-| Math.pow(2,10)               | `2`的`10`次方，但被 ES7 的 `2 ** 10 `替代                            |
-| Math.trunc(3.5)              | 抹去小数部分`3`，正数与 floor 一样，负数则有区别                     |
+| 用法                         | 说明                                                         |
+| ---------------------------- | ------------------------------------------------------------ |
+| MAX_VALUE                    | 获取无穷大的值                                               |
+| Math.max('1', '3', '4', '2') | 最大值`4`                                                    |
+| Math.min(1, 3, 4, 2)         | 最小值`1`                                                    |
+| Math.abs(-10)                | 绝对值`10`                                                   |
+| Math.floor(1.9)              | 往小的取`1`，`-1.9`即`-2`                                    |
+| Math.ceil(1.1)               | 往大的取 `2`，`-1.9 `即`-1`                                  |
+| Math.round(1.5)              | 四舍五入                                                     |
+| Math.pow(2,10)               | `2`的`10`次方，可简写为 `2 ** 10 `                           |
+| Math.trunc(3.5)              | 抹去小数部分`3`，相当于不做四舍五入，可简写为`~~3.5`，会将`true`转换为`1`，非数字转换为`0` |
 | Math.sign()                  | 判断是正数还是负数还是` 0`，正数返回 `1`，负数返回`-1`，`0` 返回 `0` |
-| Number.isInteger(n)          | 判断是否为小数，整数为`true`                                         |
-| num.toFixed(n)               | 保留`n`位小数，会四舍五入，返回的是字符串                            |
-| parseInt(num)                | 去掉小数点，不会四舍五入，建议只用于`16px`会被转成`16`               |
-| Number(num)                  | 保留小数，性能优于上一个                                             |
+| Number.isInteger(n)          | 判断是否为小数，整数为`true`                                 |
+| num.toFixed(n)               | 保留`n`位小数，会四舍五入，返回的是字符串                    |
+| parseInt(num)                | 去掉小数点，不会四舍五入，建议只用于`16px`会被转成`16`       |
+| Number(num)                  | 保留小数，性能优于上一个                                     |
 
 ## 代码优化
 
@@ -2043,7 +2042,7 @@ for (const [i, v] of a.entries()) {
 | 描述                          | 代码                                                         |
 | ----------------------------- | ------------------------------------------------------------ |
 | 时间转时间戳                  | new Date('2019-08-08 16:51:07').getTime()                    |
-| 时间戳                        | new Date().getTime()                                         |
+| 时间戳                        | new Date().getTime()，Date.now()                             |
 | 指定时间戳                    | time.getTime()                                               |
 | 年                            | new Date().getFullYear()                                     |
 | 月                            | let mon = new Date().getMonth() + 1<br/>mon = mon < 10 ? '0' + mon : mon |
@@ -2466,7 +2465,6 @@ document.addEventListener("selectstart", function (e) {
 | e.screenY                  | 获取鼠标相对电脑屏幕的 Y 坐标                                |
 | el.clientHeight            | 获取元素自身不包括 padding、margin、边框，返回数值不带单位<br />`document.documentElement.clientHeight`浏览器可视区高度， |
 | el.getBoundingClientRect() | 获取元素坐标对象，通过`document.documentElement.clientHeight - el.getBoundingClientRect().top`可获取元素到可视区的距离<br />`el.getBoundingClientRect().left`则是获取元素到边缘的距离，无视父元素的相对定位 |
-|                            |                                                              |
 
 ### offset 系列
 
@@ -3641,7 +3639,7 @@ Promise.allSettled([A(), B(), C()]).then(res => console.log(res))
 Promise.any([A(), B(), C()]).then(res => console.log(res)).catch(err => console.log('错误',err));
 ```
 
-## async
+### async
 
 > 封装一个定时器
 
@@ -3674,8 +3672,27 @@ print(1000, () => console.log(111))
 (async function test() {
   await print(() => console.log(111),1000);
   await print(() => console.log(222),1000);
-  await print( () => console.log(333),1000);
+  await print(() => console.log(333),1000);
 })()
+```
+
+#### 循环异步请求
+
+```js
+function print() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(1);
+    }, 1000);
+  });
+}
+
+async function fn() {
+  for (let i = 0; i < 5; i++) {
+    console.log(await print());
+  }
+}
+fn();
 ```
 
 ## Class 类
