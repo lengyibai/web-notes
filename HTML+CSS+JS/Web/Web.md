@@ -1,4 +1,4 @@
-<img class="lyb" src="http://lengyibai.gitee.io/img-bed/img/lyb.png" style="width:200px;margin:0 auto;border-radius:50%" />
+<img class="lyb" src="https://lengyibai-img-bed.netlify.app/img/lyb.png" style="width:200px;margin:0 auto;border-radius:50%" />
 
 <p style="font-size:50px;font-weight:bold;width:100%;text-align:center;color:#fff;text-shadow:0 0 15px">冷弋白</p>
 <p style="text-align:center;color:#aaa;position: relative;top:-10px;text-shadow:0 0 10px"><a href='https://wpa.qq.com/msgrd?v=3&uin=1329670984&site=qq&menu=yes' style='text-decoration: none;
@@ -1542,7 +1542,7 @@ function TimeOut(time) {
 }
 async function test() {
   let arr = [TimeOut(1000), TimeOut(2000), TimeOut(3000)];
-  for await (let item of arr) {	
+  for await (let item of arr) {
     console.log(item);
   }
 }
@@ -2631,7 +2631,7 @@ console.log(A.next().value);
 console.log(A.next().value);
 console.log(A.next().value);
 console.log(A.next().value);
-/* 
+/*
 0
 1
 2
@@ -2656,7 +2656,7 @@ let A = a();
 for (let a of A) {
   console.log(a);
 }
-/* 
+/*
 0
 1
 2
@@ -2679,7 +2679,7 @@ function* a() {
 for (let a of a()) {
   console.log(a);
 }
-/* 
+/*
 0
 1
 2
@@ -2708,7 +2708,7 @@ const lyb = {
 for (const [k, y] of lyb) {
   console.log(k, y);
 }
-/* 
+/*
 name 冷弋白
 age 21
 pinyin lengyibai

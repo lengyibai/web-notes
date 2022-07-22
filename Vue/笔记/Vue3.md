@@ -1,4 +1,4 @@
-<img src="http://lengyibai.gitee.io/img-bed/img/lyb.png" style="width:200px;margin:0 auto;border-radius:50%" />
+<img src="https://lengyibai-img-bed.netlify.app/img/lyb.png" style="width:200px;margin:0 auto;border-radius:50%" />
 
 <p style="font-size:50px;font-weight:bold;width:100%;text-align:center;color:#fff;text-shadow:0 0 15px">冷弋白</p>
 <p style="text-align:center;color:#aaa;position: relative;top:-10px;text-shadow:0 0 10px"><a href='https://wpa.qq.com/msgrd?v=3&uin=1329670984&site=qq&menu=yes' style='text-decoration: none;
@@ -207,10 +207,10 @@ export default {
       lastName: '弋白',
       fullName: '',
     });
-    
+
     //精简写法
     lyb.fullName = computed(() => lyb.firstName + lyb.lastName);
-    
+
     //完整写法（可修改计算属性，不常用）
     lyb.fullName = computed({
       get() {
@@ -478,7 +478,7 @@ export default {
         };
       });
     }
-    
+
     let keyWord = myRef('lengyibai');
     return { keyWord };
   },
@@ -687,7 +687,7 @@ export default {
 ```js
 import { createStore } from 'vuex'
 export default createStore({
-  modules: { 
+  modules: {
     storage: storage
   }
 })
@@ -702,14 +702,14 @@ import { useStore } from 'vuex'
 export default {
   setup () {
     const store = useStore()
-    
+
     return {
       // 在 computed 函数中访问 state
       count: computed(() => store.state.count),
 
       // 在 computed 函数中访问 getter
       double: computed(() => store.getters.double),
-      
+
       // 使用 mutation
       increment: () => store.commit('increment'),
 

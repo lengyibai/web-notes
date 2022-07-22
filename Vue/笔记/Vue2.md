@@ -1,4 +1,4 @@
-<img src="http://lengyibai.gitee.io/img-bed/img/lyb.png" style="width:200px;margin:0 auto;border-radius:50%" />
+<img src="https://lengyibai-img-bed.netlify.app/img/lyb.png" style="width:200px;margin:0 auto;border-radius:50%" />
 
 <p style="font-size:50px;font-weight:bold;width:100%;text-align:center;color:#fff;text-shadow:0 0 15px">冷弋白</p>
 <p style="text-align:center;color:#aaa;position: relative;top:-10px;text-shadow:0 0 10px"><a href='https://wpa.qq.com/msgrd?v=3&uin=1329670984&site=qq&menu=yes' style='text-decoration: none;
@@ -141,7 +141,7 @@
 >
 > 以上两个钩子不能使用`keep-alive`
 >
-> 
+>
 >
 > 以下两个钩子依赖`keep-alive`
 >
@@ -225,7 +225,7 @@ data () {
 fn(state) {
   // state.obj['master'] = '冷弋白'; //这样并不会添加进页面
   this.$set(state.obj/state.arr, 'master'/index, '冷弋白');
-  
+
   //删除对象
   this.$delete(state.obj, 'master', '冷弋白');
 
@@ -329,9 +329,9 @@ export default {
   },
   watch: {
       name(n,o) {
-          console.log(n); 
+          console.log(n);
       }
-    
+
     //深度监听
     obj: {
       deep: true,
@@ -795,7 +795,7 @@ const requireComponents = require.context(
   "@/components/common",
   true, //是否深度读取
   /\.vue$/, //匹配文件名
-);	
+);
 //requireComponents.keys() 获取匹配到的文件路径
 requireComponents.keys().forEach((fileName) => {
   if (fileName.includes("childComp") || fileName.includes("demo")) return; //不需要
@@ -1065,6 +1065,9 @@ export default {
       lyb: {
         name: "冷弋白",
       },
+      hero_data: this.hero_data,
+      setKeyValue: this.setKeyValues,
+      setKeyV: this.setKeyVs,
     };
   },
   components: { father },
@@ -1111,6 +1114,7 @@ export default {
       default: () => {},
     },
   },
+  // inject: [],  也可以使用数组
 };
 </script>
 ```
