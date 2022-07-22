@@ -11,21 +11,21 @@ function request(url: string, method: Method) {}
   method: Method;
 };
 let options: Request = {
-  url: "lengyibai.gitee.io/tv",
+  url: "https://lengyibai-tv.netlify.app",
   method: "GET",
 };
 request(options.url, options.method); */
 
 //#··第二种方法··#//
 /* let options = {
-  url: "lengyibai.gitee.io/tv",
+  url: "https://lengyibai-tv.netlify.app",
   method: "GET",
 };
 request(options.url, options.method as Method); */
 
 //#··第三种方法··#//
 let options = {
-  url: "lengyibai.gitee.io/tv",
+  url: "https://lengyibai-tv.netlify.app",
   method: "GET",
 } as const;
 request(options.url, options.method);
