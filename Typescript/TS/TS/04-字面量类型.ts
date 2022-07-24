@@ -11,21 +11,21 @@ function request(url: string, method: Method) {}
   method: Method;
 };
 let options: Request = {
-  url: "https://lengyibai-tv.netlify.app",
+  url: "https://tv-theta.vercel.app",
   method: "GET",
 };
 request(options.url, options.method); */
 
 //#··第二种方法··#//
 /* let options = {
-  url: "https://lengyibai-tv.netlify.app",
+  url: "https://tv-theta.vercel.app",
   method: "GET",
 };
 request(options.url, options.method as Method); */
 
 //#··第三种方法··#//
 let options = {
-  url: "https://lengyibai-tv.netlify.app",
+  url: "https://tv-theta.vercel.app",
   method: "GET",
 } as const;
 request(options.url, options.method);
