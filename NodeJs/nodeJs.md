@@ -11,27 +11,35 @@
 
 ```js
 const fs = require('fs');
-	
+
 /**
  * 读取文件
  * utf-8表示转换读取的文件内容，防止中文乱码
  * 也可以直接给data加上.toString()
  */
-fs.readFile('./readFile.txt', 'utf-8', (err, data) => {
-  if (err) {
-    console.log('读取失败');
-  } else {
-    console.log(data);
-  }
-});
+const readFile = (p) => {
+  const path = require('path');
+  const filePath = path.resolve(__dirname, p);
+  return new Promise((resolve) => {
+    const fs = require('fs');
+    fs.readFile(filePath, 'utf-8', (err, data) => {
+      resolve(data);
+    });
+  });
+};
 ```
 
 > 写入文件(如果没有对应文件，会自动创建)
 
 ```js
-fs.writeFile('./writeFile.txt', '大家好', (err, data) => {
-  console.log(data);
-});
+const writeFile = (url, data) => {
+  const fs = require("fs");
+  const path = require("path");
+  const filePath = path.resolve(__dirname, url);
+  fs.writeFile(filePath, JSON.stringify(data, null, 2), (err, data) => {
+    console.log(`创建成功`);
+  });
+};
 ```
 
 > 读取路径内的文件，以数组形式输出
@@ -39,17 +47,16 @@ fs.writeFile('./writeFile.txt', '大家好', (err, data) => {
 > 必须是绝对路径
 
 ```js
-const fs = require('fs');
-fs.readdir(
-  'E:/个人数据/my-data/Web前端/Web前端笔记/NodeJs/Test',
-  function (err, files) {
-    if (err) {
-      console.log('路径错误');
-    } else {
-      console.log(files);
-    }
-  }
-);
+const getPathFiles = (src) => {
+  return new Promise((resolve) => {
+    const path = require('path');
+    const fs = require('fs');
+    const filePath = path.resolve(__dirname, src);
+    fs.readdir(filePath, function (err, files) {
+      resolve(files);
+    });
+  });
+};
 ```
 
 ## 路径操作

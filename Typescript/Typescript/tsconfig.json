@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "watch": true,
+    "noEmitOnError": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "esnext",
+    "rootDir": "./src",
+    "outDir": "./dist"
+  },
+  "include": ["src/**/*.ts", "*.d.ts"]
+}
