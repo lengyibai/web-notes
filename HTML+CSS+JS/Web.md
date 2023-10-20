@@ -2213,6 +2213,7 @@ setTimeout(() => {
 | DomContentLoaded(window 专用) | 等 DOM 加载完毕触发(不包含图片、CSS 等)                      |
 | resize(window 专用)           | 只要浏览器窗口尺寸发生变化，它就会触发，用于响应式布局，`window.innerWidth`获取浏览器宽度，`window.innerHeight`获取浏览器高度，配合此事件使用 |
 | pageshow(window 专用)         | 比`load事件后执行`(window 专用)                              |
+| message(window 专用)          | 可监听`iframe`向外传递的的事件，如关闭当前`iframe`           |
 
 ### 属性值操作
 
