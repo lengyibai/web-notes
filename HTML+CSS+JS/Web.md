@@ -703,251 +703,15 @@ input {
 
 ## grid 布局
 
-### 父盒子属性
+### 1、水平换行居中间距
 
-| 属性                            | 值                                                           | 解释                                                         |
-| ------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| ①grid-template-columns          | 值 1：100px 100px 100px<br />值 2：repeat(3,100px)<br />值 3：repeat(auto-fill,100px)<br />值 4：1fr 2fr 3fr<br />值 5：repeat(4,1fr)<br />值 6：1fr minmax(150px，1fr)<br />值 7：100px auto 100px | 值 1&2：三列，每列 100px<br />值 3：列数随着父盒子宽度改变而改变<br />值 4：三列，宽度分配比例 1:2:3<br />值 5：四列，宽度等比分配<br />值 6：第一列宽度自动分配，第二列最小 150px，最大 1fr<br />值 7：左右 100px，中间自动分配，1fr 有同样的效果 |
-| ②grid-template-rows             |                                                              | 与①一样，但是纵向                                            |
-| ~~③column-gap~~                 | ~~-~~                                                        | ~~每列格子之间的间距~~                                       |
-| ~~④row-gap~~                    | ~~-~~                                                        | ~~每行格子之间的间距~~                                       |
-| ⑤gap (3 和 4 的简写)            | -                                                            | -                                                            |
-| ⑦grid-auto-flow                 | 值 1：row dense                                              | 与flex-direction相当<br />值 1：换行时如果有空的地方，下面的盒子会填充上来 |
-| ⑧justify-items                  | start \| end \| center                                       | 子盒子水平排列方式，需要子盒子小于 grid 格子宽高才会生效     |
-| ⑨align-items                    | start \| end \| center                                       | 子盒子垂直排列方式，需要子盒子小于 grid 格子宽高才会生效     |
-| ⑩place-items(8 和 9 的简写)     | -                                                            | -                                                            |
-| ⑪justify-content                | 和 flex 布局一样                                             | 所有子盒子整体水平布局                                       |
-| ⑫align-content                  | 和 flex 布局一样                                             | 所有子盒子整体垂直布局                                       |
-| ⑬place-content(11 和 12 的简写) | -                                                            | -                                                            |
-| ⑭grid-auto-columns              | 不常用                                                       |                                                              |
-| ⑮grid-auto-rows                 | 不常用                                                       |                                                              |
+> 子元素设置宽度`100%`
 
-### 单个子盒子属性
-
-| 属性                            | 值                     | 描述                           |
-| ------------------------------- | ---------------------- | ------------------------------ |
-| ①grid-column-start              | 1                      | 从横向第一个的左边那条线开始   |
-| ②grid-column-end                | 3                      | 从横向第三条线结束，共占用两格 |
-| ③grid-row-start                 | 1                      | 从纵向第一个的左边那条线开始   |
-| ④grid-row-end                   | 3                      | 从纵向第三条线结束，共占用两格 |
-| ⑤grid-column(1 和 2 的简写形式) | -                      | -                              |
-| ⑥grid-row(3 和 4 的简写形式)    | -                      | -                              |
-| ⑦grid-area                      | 1 / 1 / 3 / 3          | 以上四个的简写，占用 2×2 格    |
-| ⑧justify-self                   | start \| end \| center | 跟 justify-items 用法一致      |
-| ⑨align-self                     | start \| end \| center | 跟 align-items 用法一致        |
-| ⑩place-self (8 和 9 的简写形式) | -                      | -                              |
-
-## 简单教程
-
-### grid-template-columns
-
-> grid 自身就是一个类似 flex 的盒子
->
-> `grid-template-columns: 50px 50px 50px;`
->
-> `grid-template-rows: 50px 50px 50px;`
->
-> 这两个属性将 grid 分成了 9\*9 的空间，每个空间 50px，空间也撑开了 grid
-
-```html
-<head>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      height: 100vh;
-      display: flex;
-      flex-flow: column wrap;
-      justify-content: center;
-      align-items: center;
-      background-color: rgb(255, 255, 255);
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 50px 50px 50px;
-      grid-template-rows: 50px 50px 50px;
-      outline: 1px solid rgb(0, 0, 0);
-    }
-    /*
-        .a {
-            width: 100%;
-            height: 100%;
-            background-color: steelblue;
-            outline: 1px solid rgb(255, 255, 255);
-        }*/
-  </style>
-</head>
-
-<body>
-  <div class="grid">
-    <!--
-        <div class="a"></div>
-        <div class="a"></div>
-        <div class="a"></div>
-        <div class="a"></div>
-        <div class="a"></div>
-        <div class="a"></div>
-        <div class="a"></div>
-        <div class="a"></div>
-        <div class="a"></div> -->
-  </div>
-</body>
+```css
+display: grid;
+grid-template-columns: repeat(auto-fit, 1rem);
+gap: 10px;
 ```
-
-<img src="img/grid-07.png" alt="image-20210607204856859" style="zoom:50%;" />
-
-_这张图是浏览器开发者工具选中它所呈现的虚线和淡蓝色背景，实际上是空白_
-
-> 当我们解开注释，类名为 a 的元素宽高由于是 100%，所以填满了空间
-
-<img src="img/grid-08.png" alt="image-20210607205032923" style="zoom:50%;" />
-
-### 父盒子固定宽高
-
-> 我们现在给 grid 盒子设置宽高为 300px，并将下列两个属性原来 50px 的值设置为 1fr
->
-> 1fr 相当于是 flex 布局中，子项的 flex，它将自动分配空间来填充 grid
->
-> `grid-template-columns：1fr 1fr 1fr;`
->
-> `grid-template-rows：1fr 1fr 1fr;`
-
-<img src="img/grid-09.png" alt="image-20210607222413329" style="zoom:50%;" />
-
-> 还是上面的设置，我们将类名为 a 的元素的宽高都设为 50px
->
-> 事实上每个元素存在于每个 grid 格子内，每个元素的初始位置即左上角
-
-<img src="img/grid-11.png" alt="image-20210607222917021" style="zoom:50%;" />
-
-### justify/align-items
-
-> 我们再给 grid 加上
->
-> `align-items: center;`
->
-> `justify-items: center;`
->
-> 里面的每个元素就水平垂直居中了，既然 items 是控制元素的，那还有一个 content 是控制主体的
-
-<img src="img/grid-12.png" alt="image-20210607223148195" style="zoom:50%;" />
-
-> 现在我们再将 grid 和类名为 a 的元素的几个属性设置为如下
->
-> grid 的
->
-> `grid-template-columns: 50px 50px 50px;`
->
-> `grid-template-rows: 50px 50px 50px;`
->
-> `align-content: center;`
->
-> `justify-content: center;`
->
-> 类名为 a 的元素的
->
-> `width: 100%;`
->
-> `height: 100%;`
->
-> 由于我们给 grid 设置了宽高，又将 grid-template-columns 和 grid-template-rows 的属性换成固定值，固定值总和小于父盒子宽高，此时那 9 个存放元素的空间就挤在了初始位置左上角，由此我们可以使用 align-content 和 justify-content 来控制这 9 个空间整体在 grid 的位置为水平垂直居中
-
-<img src="img/grid-13.png" alt="image-20210607223810862" style="zoom:50%;" />
-
-> 我们可以设置 column-gap 和 row-gap 控制每个空间的间隔
->
-> `row-gap: 10px;`
->
-> `column-gap: 30px;`
->
-> 也可以使用 gap
->
-> `gap: 10px 30px;`
-
-<img src="C:/Users/13296/AppData/Roaming/Typora/typora-user-images/image-20210607233211645.png" alt="image-20210607233211645" style="zoom:50%;" />
-
-> 此时将 justify-content 和 align-content 的属性值修改成 space-between 能呈现另一种排列方式
-
-<img src="img/grid-14.png" alt="grid-14" style="zoom:50%;" />
-
-### grid-template-areas
-
-> 可以使用 grid-template-areas 来定义模板，如下
-
-```html
-<head>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      height: 100vh;
-      display: flex;
-      flex-flow: column wrap;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .grid {
-      width: 250px;
-      display: grid;
-      grid-gap: 7px;
-      grid-template-areas:
-        "h h h"
-        "i j j"
-        "k k k";
-    }
-
-    .a,
-    .b,
-    .c,
-    .d {
-      border-radius: 3px;
-    }
-
-    .a {
-      height: 50px;
-      background-color: #ea707a;
-      grid-area: h;
-    }
-
-    .b {
-      height: 200px;
-      background-color: #fdc25b;
-      grid-area: i;
-    }
-
-    .c {
-      height: 200px;
-      background-color: #69c9f9;
-      grid-area: j;
-    }
-
-    .d {
-      height: 50px;
-      background-color: #6cd58b;
-      grid-area: k;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="grid">
-    <div class="a"></div>
-    <div class="b"></div>
-    <div class="c"></div>
-    <div class="d"></div>
-  </div>
-</body>
-```
-
-<img src="img/grid-10.png" alt="grid-10" style="zoom: 50%;" />
 
 # JavaScript
 
@@ -2338,6 +2102,12 @@ document.addEventListener("contextmenu", (e) => {
 document.addEventListener("selectstart", function (e) {
   e.preventDefault();
 });
+```
+
+### 禁止拖拽图片
+
+```js
+document.ondragstart = () => false;
 ```
 
 ### 元素拖拽事件
