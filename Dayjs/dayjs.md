@@ -1,4 +1,4 @@
-# Day.js常用方法
+# day.js常用方法
 
 ## 1、转时间戳
 
@@ -68,5 +68,23 @@ const time = dayjs.duration(seconds, "seconds");
 const formattedTime = dayjs.utc(time.asMilliseconds()).format("HH:mm:ss");
 
 console.log(formattedTime); //01:01:39
+```
+
+## 7、不同时区倒计时计算
+
+> 结束时间 - (服务器时间 - 当前时间) - 当前时间
+
+```js
+/** 获取秒数 */
+const getSec = (time: string | number) => Number(dayjs(time).unix());
+
+
+const now_time = Number((dayjs().unix()).toFixed(0));
+const end_time = Number(getSec(betEndTime).toFixed(0));
+const server_time = Number(getSec(serverTime).toFixed(0));
+const time_stamp = countdown.server_time - countdown.now_time;
+
+/** 结束倒计时 */
+const time = end_time - time_stamp - Number((dayjs().unix()).toFixed(0))
 ```
 
