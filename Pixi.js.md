@@ -244,8 +244,6 @@ const tilingSprite = new TilingSprite({
 });
 ```
 
-
-
 ## Container 容器
 
 > 将多个元素存储，可统一销毁，避免循环元素逐个销毁
@@ -527,6 +525,17 @@ const sprite2 = new Sprite({
 
 container.addChild(sprite, sprite2);
 ```
+
+### 模糊
+
+```js
+const littleRobot = Sprite.from('https://pixijs.com/assets/pixi-filters/depth_blur_moby.jpg');
+const blurFilter1 = new BlurFilter();
+littleDudes.filters = [blurFilter1];
+blurFilter1.blur = 20;
+```
+
+
 
 ## 性能优化
 
