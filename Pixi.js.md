@@ -211,7 +211,7 @@ for (let i = 0; i < Object.keys(data.mc.data.frames).length; i++) {
     //将每一帧的贴图进行存储
     explosionTextures.push(texture);
 }
-
+	
 //使用动画序列
 const explosion = new AnimatedSprite(explosionTextures);
 //从第一帧开始播放
