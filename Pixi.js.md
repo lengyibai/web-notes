@@ -11,7 +11,6 @@ const app = new PIXI.Application({
     width: 800,
     height: 600,
     backgroundColor: 0x1099bb,
-    useContextAlpha: false, // 禁用 alpha 缓冲区
     antialias: true, // 开启抗锯齿功能
     backgroundAlpha:0.5, //背景透明度
     autoStart: false, //是否开启渲染，默认开启，特殊情况下可能需要自己手动开启
@@ -27,25 +26,6 @@ const app = new PIXI.Application({
 app.start()
 app.stop()
 ```
-
-## 事件
-
-```js
-circle.on("pointerenter", (e) => {
-  console.log(e);
-});
-circle.eventMode = "static";
-```
-
-| 事件名            | 事件描述                     |
-| ----------------- | ---------------------------- |
-| pointerdown       | 按下                         |
-| pointerenter      | 进入                         |
-| pointerover       | 进入                         |
-| pointerleave      | 离开                         |
-| pointerout        | 离开                         |
-| pointerup         | 抬起                         |
-| globalpointermove | 在屏幕移动，不管是否在元素上 |
 
 ## Assets 资源加载
 
@@ -174,27 +154,6 @@ Assets.init({ manifest: "/json/manifest1.json" }).then(() => {
 
 ```js
 const animations = PIXI.Assets.cache.get("spritesheets/character.json")
-```
-
-## Sprite 
-
-> PS：`texture`可加载图片和视频
-
-### new Sprite() 参数
-
-```js
- const sprite = new PIXI.Sprite({
-    texture: treeTexture, //资源
-    anchor: { x: 0.5, y: 0.5 }, //与 css background-position 类似，但会影响旋转中心点
-  });
-```
-
-### 常用API
-
-```js
-//坐标设置
-sprite.x = 0 
-sprite.y = 0
 ```
 
 ### AnimatedSprite 精灵表动画
@@ -539,22 +498,6 @@ blurFilter1.blur = 20;
 
 ## 性能优化
 
-### Graphics 矢量图形
-
-> 销毁图形，避免内存泄漏
-
-```js
-const circle = new Graphics(circleContext);
-circle.destroy();
-```
-
-> 重绘形状
-
-```js
-circle.clear();
-circle.circle(100, 100, 50).fill("red");
-```
-
 ### 滤镜
 
 > 关闭滤镜
@@ -599,12 +542,45 @@ timer++;
 app.stage.addChild(plane);
 ```
 
+## 常用解决方案
 
+### 设置层级
 
-## 通用API
+> 添加时设置层级位置
 
-| API               | 描述                                           |
-| ----------------- | ---------------------------------------------- |
-| pivot.x / pivot.y | 将数值设置为元素宽度的一半，则会绕元素中心旋转 |
-| tint              | 给元素上色                                     |
+```js
+// 将 newChild 添加到最顶层
+container.addChild(newChild);
+
+// 将 newChild 添加到索引为 2 的位置
+container.addChildAt(newChild, 2);
+```
+
+> 通过父容器设置元素层级
+
+```js
+// 将 child 移动到容器的最顶层
+container.setChildIndex(child, container.children.length - 1);
+
+// 将 child 移动到索引为 1 的位置
+container.setChildIndex(child, 1);
+```
+
+> 交换两个元素层级
+
+```js
+// 交换 child1 和 child2 的层级
+container.swapChildren(child1, child2);
+```
+
+> 直接设置层级
+
+```js
+child1.zIndex = 1;
+child2.zIndex = 2;
+
+// 按 zIndex 重新排序
+container.sortableChildren = true;
+container.sortChildren();
+```
 
