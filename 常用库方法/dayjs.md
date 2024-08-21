@@ -1,6 +1,6 @@
 # day.js常用方法
 
-## 1、转时间戳
+## 转时间戳
 
 > 可将`YYYY-MM-DD hh:mm:ss`转换成时间戳，不传则为当前
 
@@ -11,7 +11,7 @@ dayjs().unix();
 dayjs(time).valueOf();
 ```
 
-## 2、转Date类型
+## 转Date类型
 
 > 可将`YYYY-MM-DD hh:mm:ss`转换成`Date`类型，不传则为当前
 
@@ -19,19 +19,17 @@ dayjs(time).valueOf();
 dayjs(time).toDate();
 ```
 
-## 3、格式化
+## 格式化
+
+> h：12小时制
+>
+> H：24小时制
 
 ```js
-dayjs(time).format("YYYY.MM.DD hh:mm:ss");
+dayjs(time).format("YYYY.MM.DD HH:mm:ss");
 ```
 
-## 4、获取多久之前
-
-```js
-dayjs().from(oldTime);
-```
-
-## 5、计算时间差
+## 计算时间差
 
 > 可计算已过去时和倒计时
 
@@ -54,7 +52,7 @@ console.log(time.minutes()); // 输出：0
 console.log(time.seconds()); // 输出：0
 ```
 
-## 6、秒数格式化
+## 秒数格式化
 
 ```js
 import duration from "dayjs/plugin/duration";
@@ -70,7 +68,7 @@ const formattedTime = dayjs.utc(time.asMilliseconds()).format("HH:mm:ss");
 console.log(formattedTime); //01:01:39
 ```
 
-## 7、不同时区倒计时计算
+## 不同时区倒计时计算
 
 > 结束时间 - (服务器时间 - 当前时间) - 当前时间
 
@@ -88,3 +86,12 @@ const time_stamp = countdown.server_time - countdown.now_time;
 const time = end_time - time_stamp - Number((dayjs().unix()).toFixed(0))
 ```
 
+## 获取几天前
+
+```js
+//三天前的0点
+dayjs().subtract(3, "day").startOf("day").valueOf()
+
+//今天的结束时间
+dayjs().endOf("day").valueOf()
+```
