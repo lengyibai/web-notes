@@ -46,16 +46,6 @@ app.stop()
 const texturePromise = await Assets.load('https://pixijs.com/assets/bunny.png');
 ```
 
-### 加载无后缀文件
-
-```js
-//loadParser：loadTextures | loadWebFont | loadJson | loadTxt
-promise = Assets.load({
-  src: 'https://example.com/ambiguous-file-name',
-  loadParser: 'loadTextures'
-})
-```
-
 ### 批量加载
 
 ```js

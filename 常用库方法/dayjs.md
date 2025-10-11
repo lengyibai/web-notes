@@ -11,7 +11,7 @@ dayjs().unix();
 dayjs(time).valueOf();
 ```
 
-## 转Date类型
+# 转Date类型
 
 > 可将`YYYY-MM-DD hh:mm:ss`转换成`Date`类型，不传则为当前
 
